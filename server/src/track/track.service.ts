@@ -4,10 +4,7 @@ import { Get, Injectable } from '@nestjs/common';
 export class TrackService {
   async create() {}
 
-  @Get()
-  async getAll() {
-    return 'WORK';
-  }
+  async getAll() {}
 
   async getOne() {}
 
