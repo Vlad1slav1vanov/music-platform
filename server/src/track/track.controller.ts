@@ -2,19 +2,11 @@ import { Controller } from '@nestjs/common';
 
 @Controller('/tracks')
 export class TrackController {
-  create() {
+  create() {}
 
-  }
+  getAll() {}
 
-  getAll() {
+  getOne() {}
 
-  }
-
-  getOne() {
-
-  }
-
-  delete() {
-    
-  }
+  delete() {}
 }

@@ -1,10 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Get, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class TrackService {
   async create() {}
 
-  async getAll() {}
+  @Get()
+  async getAll() {
+    return 'WORK';
+  }
 
   async getOne() {}
 
