@@ -14,11 +14,11 @@ export class FileService {
     try {
       const fileExtension = path.extname(file.originalname);
       const fileName = uuid.v4() + fileExtension;
-      const filePath = path.resolve(__dirname, '..', 'static', fileName);
-      if (!fs.existsSync(filePath)) {
-        fs.mkdirSync(filePath, { recursive: true });
+      const parentDir = path.resolve(__dirname, '..', 'static');
+      if (!fs.existsSync(parentDir)) {
+        fs.mkdirSync(parentDir, { recursive: true });
       }
-      fs.writeFileSync(path.resolve(filePath, fileName), file.buffer);
+      fs.writeFileSync(path.resolve(parentDir, fileName), file.buffer);
       return type + '/' + fileName;
     } catch (err) {
       throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
