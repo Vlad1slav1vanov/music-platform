@@ -14,7 +14,7 @@ export class FileService {
     try {
       const fileExtension = path.extname(file.originalname);
       const fileName = uuid.v4() + fileExtension;
-      const parentDir = path.resolve(__dirname, '..', 'static');
+      const parentDir = path.resolve(__dirname, '..', 'static', type);
       if (!fs.existsSync(parentDir)) {
         fs.mkdirSync(parentDir, { recursive: true });
       }
@@ -24,6 +24,4 @@ export class FileService {
       throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-
-  removeFile(fileName: string) {}
 }
