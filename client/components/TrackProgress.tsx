@@ -15,7 +15,7 @@ const StyledTime = styled.div`
 `
 
 const StyledTrackProgress = styled(Box)`
-  width: 400px;
+  width: 700px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -28,7 +28,7 @@ const TrackProgress: React.FC<TrackProgressProps> = ({left, right, onChange}) =>
   return (
     <StyledTrackProgress>
       <StyledTime>{left}</StyledTime>
-      <Box width={300}>
+      <Box width={600}>
         <Slider color='secondary' />
       </Box>
       <StyledTime>{right}</StyledTime>
