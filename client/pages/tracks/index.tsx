@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Grid, Card, Button, Box } from '@mui/material';
 import { ITrack } from '../../types/track';
+import TrackList from '../../components/TrackList';
 
 const StyledCard = styled(Card)`
   width: 900px;
@@ -31,6 +32,7 @@ const Index = () => {
                 </Button>
               </Grid>
             </Box>
+            <TrackList tracks={tracks} />
           </StyledCard>
         </Grid>
       </MainLayout>
