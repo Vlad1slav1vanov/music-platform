@@ -7,18 +7,18 @@ interface StepWrapperProps {
   children?: React.ReactNode;
 }
 
-const steps = ['Информация о треке', 'Загрузите обложку', 'Загрузите аудио']
+const steps = ['Информация о треке', 'Загрузите обложку', 'Загрузите аудио'];
+
+const StyledGrid = styled(Grid)`
+justify-content: center;
+margin: 70px 0;
+height: 270px;
+`
+const StyledCard = styled(Card)`
+width: 600px;
+`
 
 const StepWrapper: React.FC<StepWrapperProps> = ({activeStep, children}) => {
-  const StyledGrid = styled(Grid)`
-    justify-content: center;
-    margin: 70px 0;
-    height: 270px;
-  `
-  const StyledCard = styled(Card)`
-  width: 600px;
-  `
-
   return (
     <Container>
       <Stepper activeStep={activeStep}>

@@ -4,9 +4,12 @@ import React from 'react';
 import FirstStep from '../../components/FirstStep';
 import StepWrapper from '../../components/StepWrapper';
 import MainLayout from '../../layouts/MainLayout';
+import UploadStep from '../../components/UploadStep';
 
 const Create = () => {
-  const [activeStep, setActiveStep] = React.useState(0)
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [picture, setPicture] = React.useState(null);
+  const [audio, setAudio] = React.useState(null);
   const next = () => {
     if (activeStep !== 2) {
       setActiveStep(prev => prev + 1)
@@ -23,10 +26,18 @@ const Create = () => {
           <FirstStep/>   
         }
         {activeStep === 1 &&
-          <FileUpload file='' setFile={() => ({})} />   
+          <UploadStep 
+          title='Загрузите обложку' 
+          accept='image/*' 
+          setFile={setPicture} 
+          />
         }
         {activeStep === 2 &&
-          <h1>STEP 3</h1>   
+          <UploadStep 
+          title='Загрузите аудиофайл' 
+          accept='audio/*' 
+          setFile={setAudio} 
+          />
         }
       </StepWrapper>
       <Grid container justifyContent='space-between'>
