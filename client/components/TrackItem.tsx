@@ -40,12 +40,11 @@ const TrackItem: React.FC<TrackItemProps> = ({track, active = false}) => {
       <IconButton 
       onClick={(evt) => evt.stopPropagation()}
       >
-      {
-        active
-        ?
-        <Pause fontSize="large" />
-        :
-        <PlayCircle fontSize="large" />
+      {active
+      ?
+      <Pause fontSize="large" />
+      :
+      <PlayCircle fontSize="large" />
       }
       </IconButton>
       <Box 

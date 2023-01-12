@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Navbar from '../components/Navbar';
+import Player from '../components/Player';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -17,6 +18,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({children}) => {
       <Container>
         {children}
       </Container>
+      <Player />
     </>
   )
 }
