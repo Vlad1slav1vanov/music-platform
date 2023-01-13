@@ -4,6 +4,8 @@ import React from "react";
 import { ITrack } from "../types/track";
 import { Delete, Pause, PlayCircle, RunningWithErrors } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import PlayerStore from "../store/PlayerStore";
+import { observer } from "mobx-react";
 
 interface TrackItemProps {
   track: ITrack;
@@ -33,18 +35,22 @@ const TrackTime = styled(Box)`
 const TrackItem: React.FC<TrackItemProps> = ({track, active = false}) => {
   const router = useRouter();
 
+  const play = (evt: React.MouseEvent<HTMLButtonElement>) => {
+    evt.stopPropagation();
+    PlayerStore.setActive(track);
+    PlayerStore.playTrack();
+  };
+
   return (
     <StyledCard 
     onClick={() => router.push('/tracks/' + track._id)}
     >
       <IconButton 
-      onClick={(evt) => evt.stopPropagation()}
+      onClick={play}
       >
       {active
-      ?
-      <Pause fontSize="large" />
-      :
-      <PlayCircle fontSize="large" />
+      ? <Pause fontSize="large" />
+      : <PlayCircle fontSize="large" />
       }
       </IconButton>
       <Box 
@@ -54,7 +60,7 @@ const TrackItem: React.FC<TrackItemProps> = ({track, active = false}) => {
         <TrackPicture 
         width={70} 
         height={70} 
-        src={track.picture} 
+        src={'http://localhost:9000/' + track.picture} 
         alt={track.name} 
         />
       </Box>
@@ -82,4 +88,4 @@ const TrackItem: React.FC<TrackItemProps> = ({track, active = false}) => {
   )
 }
 
-export default TrackItem;
+export default observer(TrackItem);

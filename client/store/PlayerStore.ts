@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { IPlayer } from "../types/player";
+import { ITrack } from "../types/track";
 
 class PlayerStore {
   constructor() {
@@ -34,6 +35,10 @@ class PlayerStore {
 
   setDuration = (time: number) => {
     this.currentState.duration = time;
+  }
+
+  setActive = (track: ITrack) => {
+    this.currentState.active = track;
   }
 }
 

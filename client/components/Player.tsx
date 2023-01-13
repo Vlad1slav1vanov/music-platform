@@ -40,12 +40,11 @@ let audio: HTMLAudioElement;
 // Component
 
 const Player: React.FC = () => {
-  const track: ITrack = {_id: '63bd314ecdc4703715a2cecc', name: 'Survival of the Fittest', artist: 'Mobb Deep', text: 'text1', listens: 1, picture: 'http://localhost:9000/image/589d7f7c-060c-417d-8be7-4cb79dda7f99.jpg', audio: 'http://localhost:9000/audio/f6f7c26e-c656-4dd6-a5f3-aec19a814e50.mp3', comments: [],}
+  const activeTrack = PlayerStore.currentState.active;
 
-  React.useEffect(() => {
-    if (!audio) {
-      audio = new Audio();
-      audio.src = track.audio;
+  const setAudio = () => {
+    if (PlayerStore.currentState.active) {
+      audio.src = activeTrack ? `http://localhost:9000/${activeTrack?.audio}` : '';
       audio.volume = PlayerStore.currentState.volume / 100;
       audio.onloadedmetadata = () => {
         PlayerStore.setDuration(Math.ceil(audio.duration))
@@ -54,7 +53,7 @@ const Player: React.FC = () => {
         PlayerStore.setCurrentTime(Math.ceil(audio.currentTime))
       }
     }
-  }, [])
+  }
 
   const play = () => {
     if (PlayerStore.currentState.pause) {
@@ -76,7 +75,19 @@ const Player: React.FC = () => {
     PlayerStore.setCurrentTime(Number(evt.target.value))
   }
 
-  const active = false;
+  React.useEffect(() => {
+    if (!audio) {
+      audio = new Audio();
+    } else {
+      setAudio();
+      play();
+    }
+  }, [activeTrack])
+
+  if (!activeTrack) {
+    return null;
+  }
+
   return (
     <StyledPlayer>
       <IconButton
@@ -92,8 +103,12 @@ const Player: React.FC = () => {
       direction='column'
       width={300}
       >
-        <TrackName>{track.name}</TrackName>
-        <ArtistName>{track.artist}</ArtistName>
+        <TrackName>
+          {activeTrack?.name}
+        </TrackName>
+        <ArtistName>
+          {activeTrack?.artist}
+        </ArtistName>
       </Grid>
       <TrackProgress 
       left={PlayerStore.currentState.currentTime} 
