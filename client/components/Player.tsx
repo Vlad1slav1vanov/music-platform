@@ -1,10 +1,12 @@
 import { Pause, PlayCircle } from "@mui/icons-material";
 import { Grid, IconButton } from "@mui/material";
+import PlayerStore from "../store/PlayerStore";
 import React from "react";
 import styled from "styled-components";
 import { ITrack } from "../types/track";
 import TrackProgress from "./TrackProgress";
 import Volume from "./Volume";
+import { observer } from "mobx-react";
 
 const StyledPlayer = styled.div`
   z-index: 10;
@@ -32,17 +34,21 @@ const ArtistName = styled.div`
 const Player: React.FC = () => {
   const track: ITrack = {_id: '63bd314ecdc4703715a2cecc', name: 'Survival of the Fittest', artist: 'Mobb Deep', text: 'text1', listens: 1, picture: 'http://localhost:9000/image/589d7f7c-060c-417d-8be7-4cb79dda7f99.jpg', audio: 'http://localhost:9000/audio/493c2080-96ce-43e2-bff2-13cd67310f99.mp3', comments: [],}
 
+  const play = () => {
+    PlayerStore.currentState.pause
+    ? PlayerStore.playTrack()
+    : PlayerStore.pauseTrack()
+  }
+
   const active = false;
   return (
     <StyledPlayer>
       <IconButton
-      onClick={(evt) => evt.stopPropagation()}
+      onClick={() => play()}
       >
-      {active
-      ?
-      <Pause htmlColor="white" fontSize="large"  />
-      :
-      <PlayCircle htmlColor="white" fontSize="large" />
+      {PlayerStore.currentState.pause
+      ? <Pause htmlColor="white" fontSize="large"  />
+      : <PlayCircle htmlColor="white" fontSize="large" />
       }
       </IconButton>
       <Grid 
@@ -59,4 +65,4 @@ const Player: React.FC = () => {
   )
 }
 
-export default Player;
+export default observer(Player);
