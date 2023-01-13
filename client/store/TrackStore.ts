@@ -19,6 +19,16 @@ class TrackStore {
       return 'Не удалось загрузить треки'
     }
   }
+
+  searchTracks = async (query: string) => {
+    try {
+      const response = await axios.get<ITrack[]>('/tracks/search?query=' + query);
+      this.currentTracks = response.data;
+    } catch (err) {
+      console.warn(err);
+      return 'Не удалось загрузить треки'
+    }
+  }
 }
 
 export default new TrackStore();

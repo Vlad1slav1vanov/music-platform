@@ -13,6 +13,20 @@ const StyledCard = styled(Card)`
 
 const Index = () => {
   const router = useRouter();
+  const [query, setQuery] = React.useState<string>('');
+  const [timer, setTimer] = React.useState<NodeJS.Timeout | null>(null)
+
+  const search = async (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(evt.target.value);
+    if (timer) {
+      clearTimeout(timer);
+    }
+    setTimer(
+      setTimeout(async () => {
+        await TrackStore.searchTracks(evt.target.value);
+      }, 500)
+    )
+  }
 
   useEffect(() => {
     TrackStore.fetchTracks();
