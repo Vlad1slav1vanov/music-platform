@@ -1,9 +1,12 @@
 import { Button, Grid, Box, TextField, List, ListItem } from "@mui/material";
+import axios from "../../axios";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
 import MainLayout from "../../layouts/MainLayout";
 import { ITrack } from "../../types/track";
+import { useInput } from "../../hooks/useInput";
 
 const MainInfo = styled(Grid)`
 margin: 25px 0;
@@ -24,9 +27,24 @@ font-family: 'Roboto', sans-serif;
 font-size: 18px;
 `
 
-const TrackPage = () => {
-  const track: ITrack = {_id: '63bd314ecdc4703715a2cecc', name: 'Survival of the Fittest', artist: 'Mobb Deep', text: 'text1', listens: 1, picture: 'http://localhost:9000/image/589d7f7c-060c-417d-8be7-4cb79dda7f99.jpg', audio: 'http://localhost:9000/audio/493c2080-96ce-43e2-bff2-13cd67310f99.mp3', comments: [],}
+const TrackPage = ({serverTrack}) => {
+  const [track, setTrack] = React.useState<ITrack>(serverTrack)
   const router = useRouter();
+  const username = useInput('');
+  const text = useInput('');
+
+  const addComment = async () => {
+    try {
+      const response = await axios.post('/tracks/comment', {
+        username: username.value,
+        text: text.value,
+        trackId: track._id,
+      })
+      setTrack({...track, comments: [...track.comments, response.data]})
+    } catch (err) {
+      console.warn(err)
+    }
+  }
 
   return (
     <MainLayout>
@@ -38,7 +56,7 @@ const TrackPage = () => {
       </Button>
       <MainInfo container>
         <img 
-        src={track.picture} 
+        src={`http://localhost:9000/${track.picture}`} 
         width={200} 
         height={200} 
         />
@@ -53,10 +71,12 @@ const TrackPage = () => {
       <Grid container gap={2}>
         <InfoRow>Комментарии</InfoRow>
         <TextField
+        {...username}
         label="Ваше имя"
         fullWidth
         />
         <TextField
+        {...text}
         label="Комментарий"
         fullWidth
         multiline
@@ -64,12 +84,13 @@ const TrackPage = () => {
         />
         <Button
         variant="outlined"
+        onClick={addComment}
         >
           Отправить
         </Button>
       </Grid>
       <List>
-        {track.comments.map((comment) =>
+        {track.comments.map(comment =>
           <ListItem key={comment._id}>
             <Box>{comment.username}</Box>
             <Box>{comment.text}</Box>
@@ -81,3 +102,18 @@ const TrackPage = () => {
 }
 
 export default TrackPage;
+
+export const getServerSideProps: GetServerSideProps = async ({params}) => {
+
+  if (params !== undefined) {
+    const response = await axios.get(`/tracks/${params.id}`)
+    return {
+      props: {
+        serverTrack: response.data as ITrack
+      }
+    }
+  }
+  else {
+    return {props: {}}
+  }
+};

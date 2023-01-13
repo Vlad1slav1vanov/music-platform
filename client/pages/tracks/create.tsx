@@ -30,7 +30,6 @@ const Create = () => {
       formData.append('picture', picture)
       audio &&
       formData.append('audio', audio)
-      console.log(formData)
       axios.post('/tracks', formData)
         .then(res => router.push('/tracks'))
         .catch(err => console.error(err))
