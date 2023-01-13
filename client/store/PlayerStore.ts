@@ -10,7 +10,7 @@ class PlayerStore {
     currentTime: 0,
     duration: 0,
     active: null,
-    volume: 0,
+    volume: 50,
     pause: true,
   }
 
@@ -22,6 +22,10 @@ class PlayerStore {
 
   playTrack = () => {
     this.currentState.pause = false;
+  }
+
+  setVolume = (volume: number) => {
+    this.currentState.volume = volume;
   }
 }
 

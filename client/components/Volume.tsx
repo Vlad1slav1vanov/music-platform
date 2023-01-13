@@ -4,9 +4,8 @@ import React from "react";
 import styled from "styled-components";
 
 interface VolumeProps {
-  left: number;
-  right: number;
-  onChange: (evt: React.ChangeEvent) => void;
+  onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
+  value: number;
 }
 
 const StyledVolume = styled(Box)`
@@ -21,11 +20,18 @@ const StyledVolume = styled(Box)`
   gap: 15px;
 `
 
-const Volume: React.FC<VolumeProps> = ({left, right, onChange}) => {
+const Volume: React.FC<VolumeProps> = ({onChange, value}) => {
   return (
     <StyledVolume>
       <VolumeDown />
-      <Slider color="secondary" min={0} max={100} valueLabelDisplay="auto" />
+      <Slider 
+      color="secondary" 
+      min={0} 
+      max={100}
+      value={value}
+      onChange={onChange}
+      valueLabelDisplay="auto" 
+      />
       <VolumeUp />
     </StyledVolume>
   )

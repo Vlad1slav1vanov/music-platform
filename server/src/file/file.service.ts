@@ -12,16 +12,16 @@ export enum FileType {
 export class FileService {
   createFile(type: FileType, file): string {
     try {
-      const fileExtension = path.extname(file.originalname);
-      const fileName = uuid.v4() + fileExtension;
-      const parentDir = path.resolve(__dirname, '..', 'static', type);
-      if (!fs.existsSync(parentDir)) {
-        fs.mkdirSync(parentDir, { recursive: true });
+      const fileExtension = file.originalname.split('.').pop();
+      const fileName = uuid.v4() + '.' + fileExtension;
+      const filePath = path.resolve(__dirname, '..', 'static', type);
+      if (!fs.existsSync(filePath)) {
+        fs.mkdirSync(filePath, { recursive: true });
       }
-      fs.writeFileSync(path.resolve(parentDir, fileName), file.buffer);
+      fs.writeFileSync(path.resolve(filePath, fileName), file.buffer);
       return type + '/' + fileName;
-    } catch (err) {
-      throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    } catch (e) {
+      throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
