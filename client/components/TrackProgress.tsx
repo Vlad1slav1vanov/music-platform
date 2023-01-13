@@ -1,11 +1,13 @@
 import { Slider, Box } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
+import dayjs from "dayjs";
 
 interface TrackProgressProps {
   left: number;
   right: number;
-  onChange: (evt: React.ChangeEvent) => void;
+  value: number;
+  onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const StyledTime = styled.div`
@@ -24,14 +26,21 @@ const StyledTrackProgress = styled(Box)`
   color: white;
 `
 
-const TrackProgress: React.FC<TrackProgressProps> = ({left, right, onChange}) => {
+const TrackProgress: React.FC<TrackProgressProps> = ({left, right, onChange, value}) => {
+
   return (
     <StyledTrackProgress>
-      <StyledTime>{left}</StyledTime>
+      <StyledTime>{dayjs(left*1000).format('mm:ss')}</StyledTime>
       <Box width={600}>
-        <Slider color='secondary' />
+        <Slider 
+        color='secondary' 
+        onChange={onChange} 
+        min={0} 
+        max={right}
+        value={value}
+        />
       </Box>
-      <StyledTime>{right}</StyledTime>
+      <StyledTime>{dayjs(right*1000).format('mm:ss')}</StyledTime>
     </StyledTrackProgress>
   )
 }

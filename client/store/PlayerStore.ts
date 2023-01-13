@@ -27,6 +27,14 @@ class PlayerStore {
   setVolume = (volume: number) => {
     this.currentState.volume = volume;
   }
+
+  setCurrentTime = (time: number) => {
+    this.currentState.currentTime = time;
+  }
+
+  setDuration = (time: number) => {
+    this.currentState.duration = time;
+  }
 }
 
 export default new PlayerStore();

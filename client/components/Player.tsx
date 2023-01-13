@@ -35,7 +35,7 @@ const ArtistName = styled.div`
 
 // not initialized audio var
 
-let audio: any;
+let audio: HTMLAudioElement;
 
 // Component
 
@@ -47,6 +47,12 @@ const Player: React.FC = () => {
       audio = new Audio();
       audio.src = track.audio;
       audio.volume = PlayerStore.currentState.volume / 100;
+      audio.onloadedmetadata = () => {
+        PlayerStore.setDuration(Math.ceil(audio.duration))
+      }
+      audio.ontimeupdate = () => {
+        PlayerStore.setCurrentTime(Math.ceil(audio.currentTime))
+      }
     }
   }, [])
 
@@ -63,6 +69,11 @@ const Player: React.FC = () => {
   const changeVolume = (evt: React.ChangeEvent<HTMLInputElement>) => {
     audio.volume = Number(evt.target.value) / 100
     PlayerStore.setVolume(Number(evt.target.value))
+  }
+
+  const changeCurrentTime = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    audio.currentTime = Number(evt.target.value)
+    PlayerStore.setCurrentTime(Number(evt.target.value))
   }
 
   const active = false;
@@ -84,8 +95,16 @@ const Player: React.FC = () => {
         <TrackName>{track.name}</TrackName>
         <ArtistName>{track.artist}</ArtistName>
       </Grid>
-      <TrackProgress left={0} right={100} onChange={() => {}} />
-      <Volume value={PlayerStore.currentState.volume} onChange={changeVolume}/>
+      <TrackProgress 
+      left={PlayerStore.currentState.currentTime} 
+      right={PlayerStore.currentState.duration} 
+      value={PlayerStore.currentState.currentTime}
+      onChange={changeCurrentTime} 
+      />
+      <Volume 
+      value={PlayerStore.currentState.volume} 
+      onChange={changeVolume}
+      />
     </StyledPlayer>
   )
 }
