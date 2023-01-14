@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import MainLayout from '../../layouts/MainLayout';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { Grid, Card, Button, Box, TextField } from '@mui/material';
+import { Grid, Card, Button, Box, TextField, ThemeProvider } from '@mui/material';
 import TrackList from '../../components/TrackList';
 import TrackStore from '../../store/TrackStore';
 import { observer } from 'mobx-react';
+import theme from '../../theme/theme';
 
 const StyledCard = styled(Card)`
   width: 900px;
@@ -33,7 +34,7 @@ const Index = () => {
   }, [])
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <MainLayout title='Список треков - музыкальная платформа'>
         <Grid container justifyContent='center'>
           <StyledCard>
@@ -56,7 +57,7 @@ const Index = () => {
           </StyledCard>
         </Grid>
       </MainLayout>
-    </>
+    </ThemeProvider>
   )
 }
 

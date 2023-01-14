@@ -2,36 +2,9 @@ import { Pause, PlayCircle } from "@mui/icons-material";
 import { Grid, IconButton } from "@mui/material";
 import PlayerStore from "../store/PlayerStore";
 import React from "react";
-import styled from "styled-components";
-import { ITrack } from "../types/track";
 import TrackProgress from "./TrackProgress";
 import Volume from "./Volume";
 import { observer } from "mobx-react";
-
-// Styles
-
-const StyledPlayer = styled.div`
-  z-index: 10;
-  height: 80px;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  background-color: #1976d2;
-  gap: 20px;
-`
-
-const TrackName = styled.div`
-  color: white;
-  font-size: 18px;
-` 
-
-const ArtistName = styled.div`
-  color: white;
-  font-size: 14px;
-`
 
 // not initialized audio var
 
@@ -89,7 +62,7 @@ const Player: React.FC = () => {
   }
 
   return (
-    <StyledPlayer>
+    <div>
       <IconButton
       onClick={() => play()}
       >
@@ -103,12 +76,12 @@ const Player: React.FC = () => {
       direction='column'
       width={300}
       >
-        <TrackName>
+        <div>
           {activeTrack?.name}
-        </TrackName>
-        <ArtistName>
+        </div>
+        <div>
           {activeTrack?.artist}
-        </ArtistName>
+        </div>
       </Grid>
       <TrackProgress 
       left={PlayerStore.currentState.currentTime} 
@@ -120,7 +93,7 @@ const Player: React.FC = () => {
       value={PlayerStore.currentState.volume} 
       onChange={changeVolume}
       />
-    </StyledPlayer>
+    </div>
   )
 }
 

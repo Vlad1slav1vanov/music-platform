@@ -3,31 +3,11 @@ import axios from "../../axios";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React from "react";
-import styled from "styled-components";
 import MainLayout from "../../layouts/MainLayout";
 import { ITrack } from "../../types/track";
 import { useInput } from "../../hooks/useInput";
 
-const MainInfo = styled(Grid)`
-margin: 25px 0;
-gap: 25px;
-`
-const Title = styled.h1`
-color: #1c60a4;
-font-family: 'Roboto', sans-serif;
-`
-const InfoRow = styled.div`
-color: #1c60a4;
-font-family: 'Roboto', sans-serif;
-font-size: 25px;
-`
-const TrackText = styled.p`
-color: #1c60a4;
-font-family: 'Roboto', sans-serif;
-font-size: 18px;
-`
-
-const TrackPage = ({serverTrack}) => {
+const TrackPage = ({serverTrack}: any) => {
   const [track, setTrack] = React.useState<ITrack>(serverTrack)
   const router = useRouter();
   const username = useInput('');
@@ -57,22 +37,22 @@ const TrackPage = ({serverTrack}) => {
       >
         К списку
       </Button>
-      <MainInfo container>
+      <Box>
         <img 
         src={`http://localhost:9000/${track.picture}`} 
         width={200} 
         height={200} 
         />
         <div>
-          <Title>{track.name}</Title>
-          <InfoRow>Исполнитель: {track.artist}</InfoRow>
-          <InfoRow>Количество прослушиваний: {track.listens}</InfoRow>
+          <div>{track.name}</div>
+          <div>Исполнитель: {track.artist}</div>
+          <div>Количество прослушиваний: {track.listens}</div>
         </div>
-      </MainInfo>
-      <InfoRow>Текст</InfoRow>
-      <TrackText>{track.text}</TrackText>
+      </Box>
+      <div>Текст</div>
+      <div>{track.text}</div>
       <Grid container gap={2}>
-        <InfoRow>Комментарии</InfoRow>
+        <div>Комментарии</div>
         <TextField
         {...username}
         label="Ваше имя"

@@ -9,25 +9,18 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import Header from './Header';
 import { useRouter } from 'next/router';
+import Navigation from './Navigation';
 
 interface ClippedDrawerProps {
   children: React.ReactNode;
 }
 
-const menuItems = [
-  { text: 'Главная', href: '/' },
-  { text: 'Альбомы', href: '/albums' },
-  { text: 'Треки', href: '/tracks' },
-];
-
 const drawerWidth = 240;
 
 const ClippedDrawer: React.FC<ClippedDrawerProps> = ({children}) => {
-  const router = useRouter();
   return (
     <Box sx={{ display: 'flex' }} >
       <CssBaseline />
@@ -42,22 +35,7 @@ const ClippedDrawer: React.FC<ClippedDrawerProps> = ({children}) => {
       >
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
-        <List>
-          {menuItems.map(({ text, href }, index) => (
-            <ListItem
-              key={text}
-              disablePadding
-              onClick={() => router.push(href)}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        <Navigation />
           <Divider />
         </Box>
       </Drawer>
