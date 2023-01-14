@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import React from 'react';
 import styled from 'styled-components';
-import Navbar from '../components/Navbar';
+import ClippedDrawer from '../components/ClippedDrawer';
 import Player from '../components/Player';
 
 interface MainLayoutProps {
@@ -25,10 +25,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({children, title, description, ke
         <meta name="keywords" content={keywords || "Музыка, треки, артисты"} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Navbar />
-      <Container>
-        {children}
-      </Container>
+      <ClippedDrawer children={children} />
       <Player />
     </>
   )
