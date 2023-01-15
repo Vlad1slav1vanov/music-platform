@@ -1,14 +1,13 @@
 import {
   Body,
   Controller,
-  Get,
   Post,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { createUserDto } from './dto/create-user.dto';
-import { UserService } from './user.service';
+import { UserRegisterResponse, UserService } from './user.service';
 
 @Controller('/users')
 export class UserController {
@@ -16,7 +15,10 @@ export class UserController {
 
   @Post('register')
   @UseInterceptors(FileFieldsInterceptor([{ name: 'picture', maxCount: 1 }]))
-  create(@UploadedFiles() files, @Body() dto: createUserDto) {
+  create(
+    @UploadedFiles() files,
+    @Body() dto: createUserDto,
+  ): Promise<UserRegisterResponse> {
     const { picture } = files;
     return this.userService.create(dto, picture[0]);
   }

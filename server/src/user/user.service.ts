@@ -7,6 +7,16 @@ import * as jwt from 'jsonwebtoken';
 import { createUserDto } from './dto/create-user.dto';
 import { FileService, FileType } from 'src/file/file.service';
 
+const SECRET_JWT_KEY = 'secret1234';
+
+export interface UserRegisterResponse {
+  _id: string;
+  fullName: string;
+  avatarUrl: string;
+  email: string;
+  token: string;
+}
+
 @Injectable()
 export class UserService {
   constructor(
@@ -14,15 +24,31 @@ export class UserService {
     private fileService: FileService,
   ) {}
 
-  async create(dto: createUserDto, picture): Promise<User> {
+  async create(dto: createUserDto, picture): Promise<UserRegisterResponse> {
     const picturePath = this.fileService.createFile(FileType.IMAGE, picture);
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(dto.password, salt);
-    const user = this.userModel.create({
+    const user = await this.userModel.create({
       ...dto,
       passwordHash: hash,
       avatarUrl: picturePath,
     });
-    return user;
+    const token = jwt.sign(
+      {
+        _id: user._id,
+      },
+      SECRET_JWT_KEY,
+      {
+        expiresIn: '30d',
+      },
+    );
+    const { email, fullName, avatarUrl, _id } = user;
+    return {
+      email,
+      _id,
+      avatarUrl,
+      fullName,
+      token,
+    };
   }
 }
