@@ -67,7 +67,6 @@ export class UserService {
 
   async login(email: string, password: string): Promise<UserRegisterResponse> {
     try {
-      console.log(email, password);
       const user = await this.userModel.findOne({ email: email });
       const loginError = new HttpException(
         'Неверный логин или пароль',
