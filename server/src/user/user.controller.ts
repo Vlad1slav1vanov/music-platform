@@ -22,4 +22,9 @@ export class UserController {
     const { picture } = files;
     return this.userService.create(dto, picture[0]);
   }
+
+  @Post('login')
+  login(@Body() { email, password }) {
+    return this.userService.login(email, password);
+  }
 }
