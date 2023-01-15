@@ -39,7 +39,13 @@ const ClippedDrawer: React.FC<ClippedDrawerProps> = ({children}) => {
           <Divider />
         </Box>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" 
+      sx={{ 
+        flexGrow: 1, 
+        p: 3, 
+        marginTop: '60px' 
+      }}
+      >
         {children}
       </Box>
     </Box>
