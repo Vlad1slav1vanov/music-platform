@@ -20,7 +20,7 @@ export class UserController {
     @Body() dto: createUserDto,
   ): Promise<UserRegisterResponse> {
     const { picture } = files;
-    return this.userService.create(dto, picture[0]);
+    return this.userService.create(dto, picture ? picture[0] : null);
   }
 
   @Post('login')

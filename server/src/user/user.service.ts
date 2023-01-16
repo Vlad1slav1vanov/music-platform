@@ -12,7 +12,7 @@ const SECRET_JWT_KEY = 'secret1234';
 export interface UserRegisterResponse {
   _id: string;
   fullName: string;
-  avatarUrl: string;
+  avatarUrl?: string;
   email: string;
   token: string;
 }
@@ -26,7 +26,8 @@ export class UserService {
 
   async create(dto: createUserDto, picture): Promise<UserRegisterResponse> {
     try {
-      const picturePath = this.fileService.createFile(FileType.IMAGE, picture);
+      const picturePath =
+        picture && this.fileService.createFile(FileType.IMAGE, picture);
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(dto.password, salt);
       const user = await this.userModel.create({
