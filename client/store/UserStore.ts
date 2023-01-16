@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx";
+import axios from "../axios";
 import { IUser } from "../types/user";
 
 class UserStore {
@@ -6,8 +7,20 @@ class UserStore {
     makeAutoObservable(this)
   }
 
-  saveToken = (res: IUser) => {
-    window.localStorage.setItem('token', res.token)
+  userState: IUser = {
+    userId: '',
+    fullName: '',
+    email: '',
+    avatarUrl: '',
+  }
+
+  authMe = async () => {
+    try {
+      const response = await axios.get<IUser>(`/users/${this.userState.userId}`);
+      this.userState = response.data;
+    } catch (err) {
+      console.warn(err);
+    }
   }
 
   register = async () => {

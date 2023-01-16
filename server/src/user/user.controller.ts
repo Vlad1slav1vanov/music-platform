@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Headers,
+  Param,
   Post,
   Req,
   UploadedFiles,
@@ -10,6 +11,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import mongoose from 'mongoose';
 import { CheckAuthGuard } from 'src/middleware/middleware.checkAuth';
 import { createUserDto } from './dto/create-user.dto';
 import { UserRegisterResponse, UserService } from './user.service';
@@ -33,9 +35,9 @@ export class UserController {
     return this.userService.login(email, password);
   }
 
-  @Get('getMe')
+  @Get(':id')
   @UseGuards(CheckAuthGuard)
-  getMe(@Req() req) {
-    return this.userService.getMe(req);
+  getMe(@Param('id') id: mongoose.Schema.Types.ObjectId) {
+    return this.userService.getMe(id);
   }
 }

@@ -3,6 +3,7 @@ import { ThemeProvider } from '@mui/material';
 import styled from 'styled-components';
 import MainLayout from '../layouts/MainLayout';
 import theme from '../theme/theme';
+import UserStore from '../store/UserStore';
 
 const Center = styled.div`
   margin-top: 150px;
@@ -13,6 +14,9 @@ const Center = styled.div`
 `
 
 const HomePage: React.FC = () => {
+  React.useEffect(() => {
+    UserStore.authMe();
+  }, [])
   return (
     <ThemeProvider theme={theme}>
       <MainLayout>

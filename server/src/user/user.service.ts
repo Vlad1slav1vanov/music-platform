@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable, Next } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { User, UserDocument } from './user.schema';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
@@ -108,9 +108,9 @@ export class UserService {
     }
   }
 
-  async getMe(req) {
+  async getMe(id: mongoose.Schema.Types.ObjectId) {
     try {
-      const user = await this.userModel.findById(req.body.userId);
+      const user = await this.userModel.findById(id);
 
       if (!user) {
         throw new HttpException(
