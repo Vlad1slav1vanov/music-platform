@@ -1,11 +1,16 @@
 import {
   Body,
   Controller,
+  Get,
+  Headers,
   Post,
+  Req,
   UploadedFiles,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { CheckAuthGuard } from 'src/middleware/middleware.checkAuth';
 import { createUserDto } from './dto/create-user.dto';
 import { UserRegisterResponse, UserService } from './user.service';
 
@@ -26,5 +31,11 @@ export class UserController {
   @Post('login')
   login(@Body() { email, password }) {
     return this.userService.login(email, password);
+  }
+
+  @Get('getMe')
+  @UseGuards(CheckAuthGuard)
+  getMe(@Req() req) {
+    return this.userService.getMe(req);
   }
 }

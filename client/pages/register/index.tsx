@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Grid, TextField, ThemeProvider, Typography } from "@mui/material";
+import { Avatar, Button, Grid, TextField, ThemeProvider, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import React from "react";
 import axios from "../../axios";
@@ -24,6 +24,11 @@ const Index: React.FC = () => {
       }
       reader.readAsDataURL(file);
     }
+  }
+
+  const deleteAvatar = () => {
+    setAvatarFile(null)
+    setAvatar('')
   }
 
   const onSubmit = () => {
@@ -55,6 +60,14 @@ const Index: React.FC = () => {
           sx={{width: 120, height: 120, cursor: 'pointer', bgcolor: '#5824f3'}}
           onClick={() => fileInput.current?.click()}
           />
+          {avatar && 
+          <Button
+          color="error"
+          onClick={deleteAvatar}
+          >
+            Удалить
+          </Button>
+          }
           <input 
           ref={fileInput}
           accept='image/*'
@@ -64,9 +77,9 @@ const Index: React.FC = () => {
           />
           <TextField
           fullWidth
-          label='Email'
+          label='E-mail'
           required
-          type="email"
+          type="email"         
           value={email}
           onChange={(evt: React.ChangeEvent<HTMLInputElement>) => setEmail(evt.target.value)}
           />

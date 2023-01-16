@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Next } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './user.schema';
@@ -7,7 +7,7 @@ import * as jwt from 'jsonwebtoken';
 import { createUserDto } from './dto/create-user.dto';
 import { FileService, FileType } from 'src/file/file.service';
 
-const SECRET_JWT_KEY = 'secret1234';
+export const SECRET_JWT_KEY = 'secret1234';
 
 export interface UserRegisterResponse {
   _id: string;
@@ -102,6 +102,30 @@ export class UserService {
         avatarUrl,
         fullName,
         token,
+      };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getMe(req) {
+    try {
+      const user = await this.userModel.findById(req.body.userId);
+
+      if (!user) {
+        throw new HttpException(
+          'Пользователь не найден',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      const { fullName, avatarUrl, _id, email } = user;
+
+      return {
+        email,
+        _id,
+        avatarUrl,
+        fullName,
       };
     } catch (err) {
       throw err;
