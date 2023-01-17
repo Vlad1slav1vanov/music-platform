@@ -1,8 +1,8 @@
 import { Pause, PlayCircle } from "@mui/icons-material";
 import { Box, Grid, IconButton, Typography } from "@mui/material";
 import PlayerStore from "../store/PlayerStore";
-import FastForwardIcon from '@mui/icons-material/FastForward';
-import FastRewindIcon from '@mui/icons-material/FastRewind';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
+import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import React from "react";
 import TrackProgress from "./TrackProgress";
 import Volume from "./Volume";
@@ -84,7 +84,7 @@ const Player: React.FC = () => {
         <IconButton
         sx={{width: 50, height: 50}}
         >
-          <FastRewindIcon
+          <SkipPreviousIcon
           htmlColor="white" 
           sx={{width: 30, height: 30}}
           />
@@ -107,7 +107,7 @@ const Player: React.FC = () => {
         <IconButton
         sx={{width: 50, height: 50}}
         >
-          <FastForwardIcon
+          <SkipNextIcon
           htmlColor="white" 
           sx={{width: 30, height: 30}}  
           />

@@ -86,10 +86,11 @@ const Header: React.FC<HeaderProps> = ({searchIsAvailable}) => {
           gap: '20px', 
           alignItems: 'center'}}
       >
-        <Avatar 
+        <Avatar
+        sx={{width: 30, height: 30}}
         src={UserStore.userState.avatarUrl} 
         />
-        <Typography 
+        <Typography
         fontSize={20}
         >
           {UserStore.userState.fullName}

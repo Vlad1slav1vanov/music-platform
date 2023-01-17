@@ -42,6 +42,7 @@ const TrackPage = ({serverTrack}: any) => {
         src={`http://localhost:9000/${track.picture}`} 
         width={200} 
         height={200} 
+        alt=""
         />
         <div>
           <div>{track.name}</div>
