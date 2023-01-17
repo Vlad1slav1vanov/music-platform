@@ -27,9 +27,10 @@ const SearchInput = styled.input`
   padding: 10px;
   padding-left: 60px;
   font-size: 20px;
+  border: #F13457 1px solid;
 
   &:focus {
-    outline: 3px #F13457 solid;
+    outline: 2px #F13457 solid;
   }
 `
 
@@ -56,7 +57,7 @@ const Header: React.FC<HeaderProps> = ({searchIsAvailable}) => {
     >
     <Toolbar>
       <Typography 
-      variant="h4" 
+      variant="h5" 
       noWrap 
       component="div"
       >
@@ -66,8 +67,8 @@ const Header: React.FC<HeaderProps> = ({searchIsAvailable}) => {
       <SearchWrapper>
         <SearchIcon 
         color="secondary" 
-        fontSize="large" 
-        sx={{position: 'absolute', left: "20px"}} 
+        fontSize="medium" 
+        sx={{position: 'absolute', left: "20px", top: "5px"}} 
         />
         <SearchInput
         type="text"

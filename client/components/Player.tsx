@@ -1,10 +1,26 @@
 import { Pause, PlayCircle } from "@mui/icons-material";
-import { Grid, IconButton } from "@mui/material";
+import { Box, Grid, IconButton, Typography } from "@mui/material";
 import PlayerStore from "../store/PlayerStore";
+import FastForwardIcon from '@mui/icons-material/FastForward';
+import FastRewindIcon from '@mui/icons-material/FastRewind';
 import React from "react";
 import TrackProgress from "./TrackProgress";
 import Volume from "./Volume";
 import { observer } from "mobx-react";
+import styled from "styled-components";
+
+const PlayerWrapper = styled(Box)`
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  z-index: 2000;
+  padding: 0 24px;
+  background-color: #5824f3;
+`
 
 // not initialized audio var
 
@@ -62,26 +78,53 @@ const Player: React.FC = () => {
   }
 
   return (
-    <div>
-      <IconButton
-      onClick={() => play()}
-      >
-      {PlayerStore.currentState.pause
-      ? <PlayCircle htmlColor="white" fontSize="large" />
-      : <Pause htmlColor="white" fontSize="large"  />
-      }
-      </IconButton>
+    <PlayerWrapper
+    >
+      <Grid sx={{display: 'flex', alignItems: 'center'}}>
+        <IconButton
+        sx={{width: 50, height: 50}}
+        >
+          <FastRewindIcon
+          htmlColor="white" 
+          sx={{width: 30, height: 30}}
+          />
+        </IconButton>
+        <IconButton
+        sx={{width: 50, height: 50}}
+        onClick={() => play()}
+        >
+          {PlayerStore.currentState.pause
+          ? <PlayCircle 
+            htmlColor="white" 
+            sx={{width: 50, height: 50}} 
+            />
+          : <Pause 
+            htmlColor="white" 
+            sx={{width: 40, height: 40}}  
+            />
+          }
+        </IconButton>
+        <IconButton
+        sx={{width: 50, height: 50}}
+        >
+          <FastForwardIcon
+          htmlColor="white" 
+          sx={{width: 30, height: 30}}  
+          />
+        </IconButton>
+      </Grid>
       <Grid 
       container 
       direction='column'
-      width={300}
+      width='200px'
+      marginLeft='25px'
       >
-        <div>
+        <Typography color="white">
           {activeTrack?.name}
-        </div>
-        <div>
+        </Typography>
+        <Typography color="white">
           {activeTrack?.artist}
-        </div>
+        </Typography>
       </Grid>
       <TrackProgress 
       left={PlayerStore.currentState.currentTime} 
@@ -93,7 +136,7 @@ const Player: React.FC = () => {
       value={PlayerStore.currentState.volume} 
       onChange={changeVolume}
       />
-    </div>
+    </PlayerWrapper>
   )
 }
 
