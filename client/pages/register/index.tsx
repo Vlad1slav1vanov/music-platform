@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import axios from "../../axios";
 import MainLayout from "../../layouts/MainLayout";
+import {userStore} from "../../store/UserStore";
 import theme from "../../theme/theme";
 
 const Index: React.FC = () => {
@@ -33,14 +34,12 @@ const Index: React.FC = () => {
 
   const onSubmit = () => {
     const formData = new FormData();
-    formData.append('email', email)
-    formData.append('password', password)
-    formData.append('fullName', fullName)
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('fullName', fullName);
     avatarFile &&
-    formData.append('picture', avatarFile)
-    axios.post('/users/register', formData)
-    .then(res => router.push('/tracks'))
-    .catch(err => console.error(err))
+    formData.append('picture', avatarFile);
+    userStore.register(formData);
   }
 
   return (

@@ -35,9 +35,9 @@ export class UserController {
     return this.userService.login(email, password);
   }
 
-  @Get(':id')
+  @Get('me')
   @UseGuards(CheckAuthGuard)
-  getMe(@Param('id') id: mongoose.Schema.Types.ObjectId) {
-    return this.userService.getMe(id);
+  getMe(@Req() req) {
+    return this.userService.getMe(req.userId);
   }
 }

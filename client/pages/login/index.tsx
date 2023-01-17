@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import axios from "../../axios";
 import MainLayout from "../../layouts/MainLayout";
+import {userStore} from "../../store/UserStore";
 import theme from "../../theme/theme";
 
 const Index: React.FC = () => {
@@ -15,9 +16,7 @@ const Index: React.FC = () => {
       email: email,
       password: password,
     }
-    axios.post('/users/login', formData)
-    .then(res => router.push('/tracks'))
-    .catch(err => console.error(err))
+    userStore.login(formData);
   }
 
   return (

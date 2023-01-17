@@ -3,7 +3,8 @@ import { ThemeProvider } from '@mui/material';
 import styled from 'styled-components';
 import MainLayout from '../layouts/MainLayout';
 import theme from '../theme/theme';
-import UserStore from '../store/UserStore';
+import {userStore} from '../store/UserStore';
+import { observer } from 'mobx-react';
 
 const Center = styled.div`
   margin-top: 150px;
@@ -15,8 +16,9 @@ const Center = styled.div`
 
 const HomePage: React.FC = () => {
   React.useEffect(() => {
-    UserStore.authMe();
+    userStore.authMe();
   }, [])
+
   return (
     <ThemeProvider theme={theme}>
       <MainLayout>
@@ -29,4 +31,4 @@ const HomePage: React.FC = () => {
   )
 }
 
-export default HomePage;
+export default observer(HomePage);

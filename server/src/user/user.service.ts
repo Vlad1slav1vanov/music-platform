@@ -108,9 +108,9 @@ export class UserService {
     }
   }
 
-  async getMe(id: mongoose.Schema.Types.ObjectId) {
+  async getMe(userId: mongoose.Schema.Types.ObjectId) {
     try {
-      const user = await this.userModel.findById(id);
+      const user = await this.userModel.findById(userId);
 
       if (!user) {
         throw new HttpException(
