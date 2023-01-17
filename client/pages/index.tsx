@@ -3,7 +3,7 @@ import { ThemeProvider } from '@mui/material';
 import styled from 'styled-components';
 import MainLayout from '../layouts/MainLayout';
 import theme from '../theme/theme';
-import {userStore} from '../store/UserStore';
+import UserStore from '../store/UserStore';
 import { observer } from 'mobx-react';
 
 const Center = styled.div`
@@ -16,7 +16,7 @@ const Center = styled.div`
 
 const HomePage: React.FC = () => {
   React.useEffect(() => {
-    userStore.authMe();
+    UserStore.authMe();
   }, [])
 
   return (

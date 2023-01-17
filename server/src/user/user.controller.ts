@@ -2,8 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  Headers,
-  Param,
   Post,
   Req,
   UploadedFiles,
@@ -11,7 +9,6 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import mongoose from 'mongoose';
 import { CheckAuthGuard } from 'src/middleware/middleware.checkAuth';
 import { createUserDto } from './dto/create-user.dto';
 import { UserRegisterResponse, UserService } from './user.service';

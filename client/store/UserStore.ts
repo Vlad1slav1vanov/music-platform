@@ -7,23 +7,17 @@ class UserStore {
     makeAutoObservable(this)
   }
 
-  userId = '';
-  fullName = '';
-  email = '';
-  avatarUrl: string | undefined = '';
+  userState: IUser | null = null;
 
   changeState = (userData: IUser, token?: string) => {
-    this.userId = userData.userId;
-    this.fullName = userData.fullName;
-    this.email = userData.email;
-    this.avatarUrl = userData.avatarUrl;
+    this.userState = userData;
     token &&
     window.localStorage.setItem('token', token)
   }
 
   authMe = async () => {
     try {
-      const {data} = await axios.get<IUser>(`/users/${this.userId}`);
+      const {data} = await axios.get<IUser>(`/users/me`);
       runInAction(() => {
         this.changeState(data);
       })
@@ -62,8 +56,9 @@ class UserStore {
   }
 
   logout = async () => {
-
+    window.localStorage.removeItem('token');
+    this.userState = null;
   }
 }
 
-export const userStore = new UserStore();
+export default new UserStore();

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import axios from "../../axios";
 import MainLayout from "../../layouts/MainLayout";
-import {userStore} from "../../store/UserStore";
+import UserStore from "../../store/UserStore";
 import theme from "../../theme/theme";
 
 const Index: React.FC = () => {
@@ -33,13 +33,18 @@ const Index: React.FC = () => {
   }
 
   const onSubmit = () => {
-    const formData = new FormData();
-    formData.append('email', email);
-    formData.append('password', password);
-    formData.append('fullName', fullName);
-    avatarFile &&
-    formData.append('picture', avatarFile);
-    userStore.register(formData);
+    try {
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('fullName', fullName);
+      avatarFile &&
+      formData.append('picture', avatarFile);
+      UserStore.register(formData);
+      router.push('/tracks')
+    } catch (err) {
+      console.warn(err)
+    }
   }
 
   return (

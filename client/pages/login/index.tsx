@@ -1,9 +1,8 @@
 import { Button, Grid, TextField, ThemeProvider, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import React from "react";
-import axios from "../../axios";
 import MainLayout from "../../layouts/MainLayout";
-import {userStore} from "../../store/UserStore";
+import UserStore from "../../store/UserStore";
 import theme from "../../theme/theme";
 
 const Index: React.FC = () => {
@@ -12,11 +11,16 @@ const Index: React.FC = () => {
   const [password, setPassword] = React.useState('');
 
   const onSubmit = () => {
-    const formData = {
-      email: email,
-      password: password,
+    try {
+      const formData = {
+        email: email,
+        password: password,
+      }
+      UserStore.login(formData);
+      router.push('/tracks')
+    } catch (err) {
+      console.warn(err); 
     }
-    userStore.login(formData);
   }
 
   return (

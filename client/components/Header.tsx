@@ -1,7 +1,10 @@
 import React from "react";
 import AppBar from '@mui/material/AppBar';
-import { Button, Grid, Toolbar, Typography } from "@mui/material";
+import { Avatar, Button, Grid, Toolbar, Typography } from "@mui/material";
 import { useRouter } from "next/router";
+import UserStore from "../store/UserStore";
+import { Box } from "@mui/system";
+import { observer } from "mobx-react";
 
 
 const Header: React.FC = () => {
@@ -16,13 +19,38 @@ const Header: React.FC = () => {
       >
         Music Platform
       </Typography>
+      {UserStore.userState
+      ?
+      <Grid
+      marginLeft='auto' 
+      sx={{display: 'flex', 
+          gap: '20px', 
+          alignItems: 'center'}}
+      >
+        <Avatar 
+        src={UserStore.userState.avatarUrl} 
+        />
+        <Typography 
+        fontSize={20}
+        >
+          {UserStore.userState.fullName}
+        </Typography>
+        <Button
+        color="error"
+        variant="contained"
+        onClick={UserStore.logout}
+        >
+          Выйти
+        </Button>    
+      </Grid>
+      :
       <Grid 
       marginLeft='auto' 
       sx={{display: 'flex', gap: '30px'}}
       >
         <Button
-        variant="contained"
-        color="secondary"
+        variant="outlined"
+        color="inherit"
         onClick={() => router.push('/login')}
         >
           Войти
@@ -35,9 +63,10 @@ const Header: React.FC = () => {
           Регистрация
         </Button>       
       </Grid>
+      }
     </Toolbar>
   </AppBar>
   )
 }
 
-export default Header;
+export default observer(Header);
