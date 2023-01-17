@@ -1,11 +1,12 @@
 import { Button, Grid, Box, TextField, List, ListItem } from "@mui/material";
-import axios from "../../axios";
+import axios from "../../axiosWithoutAuth";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 import MainLayout from "../../layouts/MainLayout";
 import { ITrack } from "../../types/track";
 import { useInput } from "../../hooks/useInput";
+import Image from "next/image";
 
 const TrackPage = ({serverTrack}: any) => {
   const [track, setTrack] = React.useState<ITrack>(serverTrack)
@@ -38,12 +39,12 @@ const TrackPage = ({serverTrack}: any) => {
         К списку
       </Button>
       <Box>
-        <img 
+        {/* <Image 
         src={`http://localhost:9000/${track.picture}`} 
         width={200} 
         height={200} 
         alt=""
-        />
+        /> */}
         <div>
           <div>{track.name}</div>
           <div>Исполнитель: {track.artist}</div>
