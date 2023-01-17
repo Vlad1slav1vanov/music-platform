@@ -1,7 +1,6 @@
 import { Avatar, Button, Grid, TextField, ThemeProvider, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import React from "react";
-import axios from "../../axios";
 import MainLayout from "../../layouts/MainLayout";
 import UserStore from "../../store/UserStore";
 import theme from "../../theme/theme";

@@ -9,13 +9,14 @@ interface MainLayoutProps {
   title?: string;
   description?: string;
   keywords?: string;
+  searchIsAvailable?: boolean;
 }
 
 const Container = styled.div`
   margin: 90px;
 `
 
-const MainLayout: React.FC<MainLayoutProps> = ({children, title, description, keywords}) => {
+const MainLayout: React.FC<MainLayoutProps> = ({children, title, description, keywords, searchIsAvailable}) => {
   return (
     <>
       <Head>
@@ -25,7 +26,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({children, title, description, ke
         <meta name="keywords" content={keywords || "Музыка, треки, артисты"} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <ClippedDrawer children={children} />
+      <ClippedDrawer searchIsAvailable={searchIsAvailable}>
+        {children}
+      </ClippedDrawer>
       <Player />
     </>
   )

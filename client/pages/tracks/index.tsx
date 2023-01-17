@@ -35,7 +35,7 @@ const Index = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <MainLayout title='Список треков - музыкальная платформа'>
+      <MainLayout searchIsAvailable title='Список треков - музыкальная платформа'>
         <Grid container justifyContent='center'>
           <StyledCard>
             <Box p={4}>
