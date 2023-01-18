@@ -88,7 +88,7 @@ const Header: React.FC<HeaderProps> = ({searchIsAvailable}) => {
       >
         <Avatar
         sx={{width: 30, height: 30}}
-        src={UserStore.userState.avatarUrl} 
+        src={`http://localhost:9000/${UserStore.userState.avatarUrl}`} 
         />
         <Typography
         fontSize={20}

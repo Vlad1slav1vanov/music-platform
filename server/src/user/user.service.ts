@@ -131,4 +131,57 @@ export class UserService {
       throw err;
     }
   }
+
+  async update(dto: createUserDto, picture, userId: mongoose.Schema.Types.ObjectId): Promise<UserRegisterResponse> {
+    try {
+      const updateObject: Record<string, any> = {};
+
+      if (dto.password) {
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(dto.password, salt);
+        updateObject.passwordHash = hash;
+      }
+
+      if (picture) {
+        const picturePath = this.fileService.createFile(FileType.IMAGE, picture);
+        updateObject.avatarUrl = picturePath;
+      }
+
+      Object.keys(dto).forEach((key) => {
+        if (dto[key]) updateObject[key] = dto[key];
+      });
+
+      await this.userModel.updateOne({_id: userId}, {$set : updateObject});
+
+      const userData = await this.userModel.findById(userId)
+
+      const token = jwt.sign(
+        {
+          _id: userData._id,
+        },
+        SECRET_JWT_KEY,
+        {
+          expiresIn: '30d',
+        },
+      );
+
+      const { email, fullName, avatarUrl, _id } = userData;
+
+      return {
+        email,
+        _id,
+        avatarUrl,
+        fullName,
+        token,
+      };
+    } catch (err) {
+      if (err.code === 11000) {
+        throw new HttpException(
+          'Данная почта уже занята',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      throw err;
+    }
+  }
 }

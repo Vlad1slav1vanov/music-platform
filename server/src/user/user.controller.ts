@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  Param,
+  Patch,
   Post,
   Req,
   UploadedFiles,
@@ -9,6 +11,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import mongoose from 'mongoose';
 import { CheckAuthGuard } from 'src/middleware/middleware.checkAuth';
 import { createUserDto } from './dto/create-user.dto';
 import { UserRegisterResponse, UserService } from './user.service';
@@ -36,5 +39,18 @@ export class UserController {
   @UseGuards(CheckAuthGuard)
   getMe(@Req() req) {
     return this.userService.getMe(req.userId);
+  }
+
+  @Patch()
+  @UseGuards(CheckAuthGuard)
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'picture', maxCount: 1 }]))
+  update(
+    @UploadedFiles() files,
+    @Body() dto: createUserDto,
+    @Req() req,
+  ): Promise<UserRegisterResponse> {
+    const { picture } = files;
+    const { userId } = req
+    return this.userService.update(dto, picture ? picture[0] : null, userId);
   }
 }
