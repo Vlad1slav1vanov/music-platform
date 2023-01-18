@@ -184,4 +184,16 @@ export class UserService {
       throw err;
     }
   }
+
+  async delete(userId: mongoose.Schema.Types.ObjectId) {
+    try {
+      await this.userModel.findByIdAndDelete(userId);
+      return {message: 'Профиль удален'}
+    } catch (err) {
+      throw new HttpException(
+        'Не удалось удалить профиль',
+        HttpStatus.NOT_FOUND
+      );
+    }
+  }
 }

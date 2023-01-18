@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -52,5 +53,11 @@ export class UserController {
     const { picture } = files;
     const { userId } = req
     return this.userService.update(dto, picture ? picture[0] : null, userId);
+  }
+
+  @Delete()
+  @UseGuards(CheckAuthGuard)
+  delete(@Req() req) {
+    return this.userService.delete(req.userId);
   }
 }
