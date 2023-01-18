@@ -17,6 +17,12 @@ const StyledCard = styled(Card)`
   display: flex;
   align-items: center;
   gap: 20px;
+  border: 1px solid grey;
+
+  &:hover {
+    border-color: #5824f3;
+    outline: 1px solid #5824f3;
+  }
 `
 
 const TrackPicture = styled.img`
@@ -32,7 +38,7 @@ const TrackTime = styled(Box)`
   font-size: 14px;
 `
 
-const TrackItem: React.FC<TrackItemProps> = ({track, active = false}) => {
+const TrackItem: React.FC<TrackItemProps> = ({track, active}) => {
   const router = useRouter();
 
   const play = (evt: React.MouseEvent<HTMLButtonElement>) => {
@@ -49,8 +55,8 @@ const TrackItem: React.FC<TrackItemProps> = ({track, active = false}) => {
       onClick={play}
       >
       {active
-      ? <Pause fontSize="large" />
-      : <PlayCircle fontSize="large" />
+      ? <Pause fontSize="large" color="secondary" />
+      : <PlayCircle fontSize="large" color="secondary" />
       }
       </IconButton>
       <Box 

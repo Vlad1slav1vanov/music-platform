@@ -41,6 +41,7 @@ const Player: React.FC = () => {
       audio.ontimeupdate = () => {
         PlayerStore.setCurrentTime(Math.ceil(audio.currentTime))
       }
+      audio.currentTime = PlayerStore.currentState.currentTime;
     }
   }
 

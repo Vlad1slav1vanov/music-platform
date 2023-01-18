@@ -6,6 +6,7 @@ import axios from '../../axios';
 import { useRouter } from 'next/router';
 import theme from '../../theme/theme';
 import styled from 'styled-components';
+import UserStore from '../../store/UserStore';
 
 const StyledForm = styled(Box)`
   display: flex;
@@ -69,7 +70,6 @@ const Create = () => {
     }
   }
 
-
   const changeTextField = (evt: React.ChangeEvent<HTMLInputElement>, fieldType: string) => {
     if (fieldType === 'name') {
       setForm(prev => ({...prev, name: evt.target.value}))
@@ -115,6 +115,10 @@ const Create = () => {
         console.error(err);
       });
   }
+
+  React.useEffect(() => {
+    UserStore.authMe();
+  }, [])
 
   return (
     <ThemeProvider theme={theme}>

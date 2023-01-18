@@ -41,12 +41,12 @@ const TrackPage = ({serverTrack}: any) => {
           К списку
         </Button>
         <Box>
-          <Image 
+          {/* <Image 
           src={`http://localhost:9000/${track.picture}`} 
           width={200} 
           height={200} 
           alt=""
-          />
+          /> */}
           <div>
             <div>{track.name}</div>
             <div>Исполнитель: {track.artist}</div>
