@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Grid, Card, Button, Box, TextField, ThemeProvider, Typography } from '@mui/material';
 import TrackList from '../../components/TrackList';
-import TrackStore from '../../store/TrackStore';
+import {trackStore} from '../../store/TrackStore';
 import { observer } from 'mobx-react';
 import theme from '../../theme/theme';
 
@@ -12,7 +12,7 @@ const Index = () => {
   const router = useRouter();
 
   useEffect(() => {
-    TrackStore.fetchTracks();
+    trackStore.fetchTracks();
   }, [])
 
   return (
@@ -38,7 +38,7 @@ const Index = () => {
               <Grid container justifyContent='space-between'>
               </Grid>
             </Box>
-            <TrackList tracks={TrackStore.currentTracks} />
+            <TrackList tracks={trackStore.currentTracks} />
         </Grid>
       </MainLayout>
     </ThemeProvider>

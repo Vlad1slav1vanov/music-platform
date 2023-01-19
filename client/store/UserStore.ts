@@ -46,7 +46,6 @@ class UserStore {
       const {data} = await axios.post('/users/login', formData);
       runInAction(() => {
         this.changeState(data, data.token);
-        console.log(data)
       })
     } catch (err) {
       runInAction(() => {
@@ -61,4 +60,4 @@ class UserStore {
   }
 }
 
-export default new UserStore();
+export const userStore = new UserStore();

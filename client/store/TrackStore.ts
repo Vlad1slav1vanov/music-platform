@@ -39,4 +39,4 @@ class TrackStore {
   }
 }
 
-export default new TrackStore();
+export const trackStore = new TrackStore();

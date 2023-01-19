@@ -2,7 +2,7 @@ import { Avatar, Button, Grid, TextField, ThemeProvider, Typography } from "@mui
 import { useRouter } from "next/router";
 import React from "react";
 import MainLayout from "../../layouts/MainLayout";
-import UserStore from "../../store/UserStore";
+import {userStore} from "../../store/UserStore";
 import theme from "../../theme/theme";
 
 const Index: React.FC = () => {
@@ -39,7 +39,7 @@ const Index: React.FC = () => {
       formData.append('fullName', fullName);
       avatarFile &&
       formData.append('picture', avatarFile);
-      UserStore.register(formData);
+      userStore.register(formData);
       router.push('/tracks')
     } catch (err) {
       console.warn(err)

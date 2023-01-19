@@ -7,15 +7,13 @@ class PlayerStore {
     makeAutoObservable(this)
   }
 
-  initialState: IPlayer = {
+  currentState: IPlayer = {
     currentTime: 0,
     duration: 0,
     active: null,
     volume: 50,
     pause: true,
-  }
-
-  currentState: IPlayer = this.initialState
+  };
 
   pauseTrack = () => {
     this.currentState.pause = true;
@@ -42,4 +40,4 @@ class PlayerStore {
   }
 }
 
-export default new PlayerStore();
+export const playerStore = new PlayerStore();

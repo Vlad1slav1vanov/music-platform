@@ -2,9 +2,9 @@ import { Card, Grid, IconButton, Box } from "@mui/material";
 import styled from "styled-components";
 import React from "react";
 import { ITrack } from "../types/track";
-import { Delete, Pause, PlayCircle, RunningWithErrors } from "@mui/icons-material";
+import { Delete, Pause, PlayCircle } from "@mui/icons-material";
 import { useRouter } from "next/router";
-import PlayerStore from "../store/PlayerStore";
+import {playerStore} from "../store/PlayerStore";
 import { observer } from "mobx-react";
 
 interface TrackItemProps {
@@ -43,8 +43,8 @@ const TrackItem: React.FC<TrackItemProps> = ({track, active}) => {
 
   const play = (evt: React.MouseEvent<HTMLButtonElement>) => {
     evt.stopPropagation();
-    PlayerStore.setActive(track);
-    PlayerStore.playTrack();
+    playerStore.setActive(track);
+    playerStore.playTrack();
   };
 
   return (
@@ -60,12 +60,12 @@ const TrackItem: React.FC<TrackItemProps> = ({track, active}) => {
       }
       </IconButton>
       <Box 
-      width={70} 
-      height={70}
+      width={80} 
+      height={80}
       >
         <TrackPicture 
-        width={70} 
-        height={70} 
+        width={80} 
+        height={80} 
         src={'http://localhost:9000/' + track.picture} 
         alt={track.name} 
         />

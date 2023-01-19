@@ -2,7 +2,7 @@ import { Button, Grid, TextField, ThemeProvider, Typography } from "@mui/materia
 import { useRouter } from "next/router";
 import React from "react";
 import MainLayout from "../../layouts/MainLayout";
-import UserStore from "../../store/UserStore";
+import {userStore} from "../../store/UserStore";
 import theme from "../../theme/theme";
 
 const Index: React.FC = () => {
@@ -16,7 +16,7 @@ const Index: React.FC = () => {
         email: email,
         password: password,
       }
-      UserStore.login(formData);
+      userStore.login(formData);
       router.push('/tracks')
     } catch (err) {
       console.warn(err); 

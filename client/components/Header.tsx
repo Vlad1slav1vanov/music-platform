@@ -2,8 +2,8 @@ import React from "react";
 import AppBar from '@mui/material/AppBar';
 import { Avatar, Button, FilledInput, Grid, TextField, Toolbar, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import TrackStore from "../store/TrackStore"
-import UserStore from "../store/UserStore";
+import {trackStore} from "../store/TrackStore"
+import {userStore} from "../store/UserStore";
 import SearchIcon from '@mui/icons-material/Search';
 import { observer } from "mobx-react";
 import styled from "styled-components";
@@ -46,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({searchIsAvailable}) => {
     }
     setTimer(
       setTimeout(async () => {
-        await TrackStore.searchTracks(evt.target.value);
+        await trackStore.searchTracks(evt.target.value);
       }, 500)
     )
   }
@@ -78,7 +78,7 @@ const Header: React.FC<HeaderProps> = ({searchIsAvailable}) => {
         />
       </SearchWrapper>
       }
-      {UserStore.userState
+      {userStore.userState
       ?
       <Grid
       marginLeft='auto' 
@@ -88,17 +88,17 @@ const Header: React.FC<HeaderProps> = ({searchIsAvailable}) => {
       >
         <Avatar
         sx={{width: 30, height: 30}}
-        src={`http://localhost:9000/${UserStore.userState.avatarUrl}`} 
+        src={`http://localhost:9000/${userStore.userState.avatarUrl}`} 
         />
         <Typography
         fontSize={20}
         >
-          {UserStore.userState.fullName}
+          {userStore.userState.fullName}
         </Typography>
         <Button
         color="error"
         variant="contained"
-        onClick={UserStore.logout}
+        onClick={userStore.logout}
         >
           Выйти
         </Button>    

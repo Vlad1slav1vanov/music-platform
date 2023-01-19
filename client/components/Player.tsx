@@ -1,6 +1,6 @@
 import { Pause, PlayCircle } from "@mui/icons-material";
 import { Box, Grid, IconButton, Typography } from "@mui/material";
-import PlayerStore from "../store/PlayerStore";
+import {playerStore} from "../store/PlayerStore";
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import React from "react";
@@ -29,40 +29,40 @@ let audio: HTMLAudioElement;
 // Component
 
 const Player: React.FC = () => {
-  const activeTrack = PlayerStore.currentState.active;
-
+  const activeTrack = playerStore.currentState.active;
+  
   const setAudio = () => {
-    if (PlayerStore.currentState.active) {
+    if (playerStore.currentState.active) {
       audio.src = activeTrack ? `http://localhost:9000/${activeTrack?.audio}` : '';
-      audio.volume = PlayerStore.currentState.volume / 100;
+      audio.volume = playerStore.currentState.volume / 100;
       audio.onloadedmetadata = () => {
-        PlayerStore.setDuration(Math.ceil(audio.duration))
+        playerStore.setDuration(audio.duration)
       }
       audio.ontimeupdate = () => {
-        PlayerStore.setCurrentTime(Math.ceil(audio.currentTime))
+        playerStore.setCurrentTime(audio.currentTime)
       }
-      audio.currentTime = PlayerStore.currentState.currentTime;
+      audio.currentTime = playerStore.currentState.currentTime
     }
   }
 
   const play = () => {
-    if (PlayerStore.currentState.pause) {
-      PlayerStore.playTrack()
+    if (playerStore.currentState.pause) {
+      playerStore.playTrack()
       audio.play()
     } else {
-      PlayerStore.pauseTrack()
+      playerStore.pauseTrack()
       audio.pause()
     }
   }
 
   const changeVolume = (evt: React.ChangeEvent<HTMLInputElement>) => {
     audio.volume = Number(evt.target.value) / 100
-    PlayerStore.setVolume(Number(evt.target.value))
+    playerStore.setVolume(Number(evt.target.value))
   }
 
   const changeCurrentTime = (evt: React.ChangeEvent<HTMLInputElement>) => {
     audio.currentTime = Number(evt.target.value)
-    PlayerStore.setCurrentTime(Number(evt.target.value))
+    playerStore.setCurrentTime(Number(evt.target.value))
   }
 
   React.useEffect(() => {
@@ -79,8 +79,7 @@ const Player: React.FC = () => {
   }
 
   return (
-    <PlayerWrapper
-    >
+    <PlayerWrapper>
       <Grid sx={{display: 'flex', alignItems: 'center'}}>
         <IconButton
         sx={{width: 50, height: 50}}
@@ -94,7 +93,7 @@ const Player: React.FC = () => {
         sx={{width: 50, height: 50}}
         onClick={() => play()}
         >
-          {PlayerStore.currentState.pause
+          {playerStore.currentState.pause
           ? <PlayCircle 
             htmlColor="white" 
             sx={{width: 50, height: 50}} 
@@ -128,13 +127,13 @@ const Player: React.FC = () => {
         </Typography>
       </Grid>
       <TrackProgress 
-      left={PlayerStore.currentState.currentTime} 
-      right={PlayerStore.currentState.duration} 
-      value={PlayerStore.currentState.currentTime}
+      left={playerStore.currentState.currentTime} 
+      right={playerStore.currentState.duration} 
+      value={playerStore.currentState.currentTime}
       onChange={changeCurrentTime} 
       />
       <Volume 
-      value={PlayerStore.currentState.volume} 
+      value={playerStore.currentState.volume} 
       onChange={changeVolume}
       />
     </PlayerWrapper>
