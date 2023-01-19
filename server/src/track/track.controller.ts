@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import mongoose from 'mongoose';
-import { CreateCommentDto } from './dto/create-comment.dto';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { TrackService } from './track.service';
 
@@ -48,11 +47,6 @@ export class TrackController {
   @Delete(':id')
   delete(@Param('id') id: mongoose.Schema.Types.ObjectId) {
     return this.trackService.delete(id);
-  }
-
-  @Post('/comment')
-  addComment(@Body() dto: CreateCommentDto) {
-    return this.trackService.addComment(dto);
   }
 
   @Post('/listen/:id')
