@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Track, TrackDocument } from './schemas/track.schema';
 import mongoose, { Model, ObjectId } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -59,7 +64,8 @@ export class TrackService {
   async addComment(dto: createCommentDto, userId: ObjectId): Promise<Comment> {
     const comment = await this.commentModel.create({
       user: userId,
-      ...dto,
+      track: dto.trackId,
+      text: dto.text,
     });
 
     await this.trackModel.findOneAndUpdate(
@@ -106,7 +112,7 @@ export class TrackService {
       { _id: comment.track },
       {
         $pull: {
-          comments: comment._id,
+          comments: { $in: comment._id },
         },
         $inc: {
           commentsCount: -1,
