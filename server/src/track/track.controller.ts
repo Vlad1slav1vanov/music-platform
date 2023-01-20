@@ -6,11 +6,15 @@ import {
   Param,
   Post,
   Query,
+  Req,
   UploadedFiles,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import mongoose from 'mongoose';
+import { CheckAuthGuard } from 'src/middleware/middleware.checkAuth';
+import { createCommentDto } from './dto/create-comment.dto';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { TrackService } from './track.service';
 
@@ -52,5 +56,11 @@ export class TrackController {
   @Post('/listen/:id')
   listen(@Param('id') id: mongoose.Schema.Types.ObjectId) {
     return this.trackService.listen(id);
+  }
+
+  @Post('/comment')
+  @UseGuards(CheckAuthGuard)
+  addComment(@Body() dto: createCommentDto, @Req() req) {
+    return this.trackService.addComment(dto, req.userId);
   }
 }

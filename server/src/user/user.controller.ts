@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
   Patch,
   Post,
   Req,
@@ -12,7 +11,6 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import mongoose from 'mongoose';
 import { CheckAuthGuard } from 'src/middleware/middleware.checkAuth';
 import { createUserDto } from './dto/create-user.dto';
 import { UserRegisterResponse, UserService } from './user.service';
@@ -51,7 +49,7 @@ export class UserController {
     @Req() req,
   ): Promise<UserRegisterResponse> {
     const { picture } = files;
-    const { userId } = req
+    const { userId } = req;
     return this.userService.update(dto, picture ? picture[0] : null, userId);
   }
 

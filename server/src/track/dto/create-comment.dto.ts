@@ -1,7 +1,6 @@
-import mongoose from 'mongoose';
+import { ObjectId } from 'mongoose';
 
-export class CreateCommentDto {
-  readonly username: string;
+export class createCommentDto {
+  readonly trackId: ObjectId;
   readonly text: string;
-  readonly trackId: mongoose.Schema.Types.ObjectId;
 }

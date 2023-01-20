@@ -5,7 +5,6 @@ import { TrackModule } from './track/track.module';
 import * as path from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { UserModule } from './user/user.module';
-import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -16,7 +15,6 @@ import { CommentModule } from './comment/comment.module';
     TrackModule,
     FileModule,
     UserModule,
-    CommentModule,
   ],
 })
 export class AppModule {}

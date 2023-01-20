@@ -132,7 +132,11 @@ export class UserService {
     }
   }
 
-  async update(dto: createUserDto, picture, userId: mongoose.Schema.Types.ObjectId): Promise<UserRegisterResponse> {
+  async update(
+    dto: createUserDto,
+    picture,
+    userId: mongoose.Schema.Types.ObjectId,
+  ): Promise<UserRegisterResponse> {
     try {
       const updateObject: Record<string, any> = {};
 
@@ -143,7 +147,10 @@ export class UserService {
       }
 
       if (picture) {
-        const picturePath = this.fileService.createFile(FileType.IMAGE, picture);
+        const picturePath = this.fileService.createFile(
+          FileType.IMAGE,
+          picture,
+        );
         updateObject.avatarUrl = picturePath;
       }
 
@@ -151,9 +158,9 @@ export class UserService {
         if (dto[key]) updateObject[key] = dto[key];
       });
 
-      await this.userModel.updateOne({_id: userId}, {$set : updateObject});
+      await this.userModel.updateOne({ _id: userId }, { $set: updateObject });
 
-      const userData = await this.userModel.findById(userId)
+      const userData = await this.userModel.findById(userId);
 
       const token = jwt.sign(
         {
@@ -188,11 +195,11 @@ export class UserService {
   async delete(userId: mongoose.Schema.Types.ObjectId) {
     try {
       await this.userModel.findByIdAndDelete(userId);
-      return {message: 'Профиль удален'}
+      return { message: 'Профиль удален' };
     } catch (err) {
       throw new HttpException(
         'Не удалось удалить профиль',
-        HttpStatus.NOT_FOUND
+        HttpStatus.NOT_FOUND,
       );
     }
   }
