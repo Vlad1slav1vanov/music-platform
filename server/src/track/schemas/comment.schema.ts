@@ -8,7 +8,10 @@ export type CommentDocument = Comment & Document;
 
 @Schema({ timestamps: true })
 export class Comment {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  })
   user: User;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Track' })

@@ -5,13 +5,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Track, TrackDocument } from './schemas/track.schema';
-import mongoose, { Model, ObjectId } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { FileService, FileType } from 'src/file/file.service';
 import { createCommentDto } from './dto/create-comment.dto';
 import { Comment, CommentDocument } from './schemas/comment.schema';
-import { STATUS_CODES } from 'http';
 
 @Injectable()
 export class TrackService {
@@ -39,7 +38,10 @@ export class TrackService {
   }
 
   async getOne(id: ObjectId): Promise<Track> {
-    const track = await this.trackModel.findById(id).populate('comments');
+    const track = await this.trackModel.findById(id).populate({
+      path: 'comments',
+      populate: { path: 'user', select: 'fullName avatarUrl' },
+    });
     return track;
   }
 

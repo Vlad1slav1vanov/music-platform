@@ -11,6 +11,8 @@ import { ITrack } from "../../types/track";
 import { useInput } from "../../hooks/useInput";
 import theme from "../../theme/theme";
 import styled from "styled-components";
+import CommentBlock from "../../components/CommentBlock";
+import { userStore } from "../../store/UserStore";
 
 const StyledAccordion = styled(Accordion)`
 border: 1px solid grey;
@@ -80,6 +82,18 @@ const TrackPage = ({serverTrack}: any) => {
               <Typography variant="h6" whiteSpace='pre'>
                 {track.text}
               </Typography>
+            </AccordionDetails>
+          </StyledAccordion>
+        </Grid>
+        <Grid>
+          <StyledAccordion >
+            <AccordionSummary
+            expandIcon={<ExpandMoreIcon color="primary" />}
+            >
+              <Typography color='primary' variant="h5">Комментарии</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <CommentBlock comments={track.comments}/>
             </AccordionDetails>
           </StyledAccordion>
         </Grid>
