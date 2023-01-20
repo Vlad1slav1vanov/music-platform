@@ -73,7 +73,7 @@ export class TrackController {
 
   @Delete('/comment/:id')
   @UseGuards(CheckAuthGuard)
-  deleteComment(@Req() req, @Param('id') trackId) {
-    return this.trackService.deleteComment(req.userId, trackId);
+  deleteComment(@Req() req, @Param('id') commentId) {
+    return this.trackService.deleteComment(commentId, req.userId);
   }
 }

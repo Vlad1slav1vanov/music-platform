@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Track, TrackDocument } from './schemas/track.schema';
 import mongoose, { Model, ObjectId } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -6,6 +6,7 @@ import { CreateTrackDto } from './dto/create-track.dto';
 import { FileService, FileType } from 'src/file/file.service';
 import { createCommentDto } from './dto/create-comment.dto';
 import { Comment, CommentDocument } from './schemas/comment.schema';
+import { STATUS_CODES } from 'http';
 
 @Injectable()
 export class TrackService {
@@ -96,6 +97,22 @@ export class TrackService {
   }
 
   async deleteComment(commentId: ObjectId, userId: ObjectId) {
-
+    const comment = await this.commentModel.findById(commentId);
+    if (comment.user.toString() !== userId.toString()) {
+      throw new UnauthorizedException('Авторизация не пройдена');
+    }
+    await this.commentModel.findByIdAndDelete({ _id: commentId });
+    await this.trackModel.findOneAndUpdate(
+      { _id: comment.track },
+      {
+        $pull: {
+          comments: comment._id,
+        },
+        $inc: {
+          commentsCount: -1,
+        },
+      },
+    );
+    throw new HttpException('Комментарий удален', HttpStatus.ACCEPTED);
   }
 }
