@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   Req,
@@ -12,7 +13,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import mongoose from 'mongoose';
+import { ObjectId } from 'mongoose';
 import { CheckAuthGuard } from 'src/middleware/middleware.checkAuth';
 import { createCommentDto } from './dto/create-comment.dto';
 import { CreateTrackDto } from './dto/create-track.dto';
@@ -44,17 +45,17 @@ export class TrackController {
   }
 
   @Get(':id')
-  getOne(@Param('id') id: mongoose.Schema.Types.ObjectId) {
+  getOne(@Param('id') id: ObjectId) {
     return this.trackService.getOne(id);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: mongoose.Schema.Types.ObjectId) {
+  delete(@Param('id') id: ObjectId) {
     return this.trackService.delete(id);
   }
 
   @Post('/listen/:id')
-  listen(@Param('id') id: mongoose.Schema.Types.ObjectId) {
+  listen(@Param('id') id: ObjectId) {
     return this.trackService.listen(id);
   }
 
@@ -62,5 +63,17 @@ export class TrackController {
   @UseGuards(CheckAuthGuard)
   addComment(@Body() dto: createCommentDto, @Req() req) {
     return this.trackService.addComment(dto, req.userId);
+  }
+
+  @Patch('/comment/:id')
+  @UseGuards(CheckAuthGuard)
+  editComment(@Param('id') commentId, @Req() req, @Body() { text }) {
+    return this.trackService.editComment(commentId, req.userId, text);
+  }
+
+  @Delete('/comment/:id')
+  @UseGuards(CheckAuthGuard)
+  deleteComment(@Req() req, @Param('id') trackId) {
+    return this.trackService.deleteComment(req.userId, trackId);
   }
 }

@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Track, TrackDocument } from './schemas/track.schema';
-import { Model, ObjectId } from 'mongoose';
+import mongoose, { Model, ObjectId } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { FileService, FileType } from 'src/file/file.service';
@@ -74,5 +74,28 @@ export class TrackService {
     );
 
     return comment;
+  }
+
+  async editComment(
+    commentId: ObjectId,
+    userId: ObjectId,
+    text,
+  ): Promise<Comment> {
+    const comment = await this.commentModel.findById(commentId);
+    if (comment.user.toString() !== userId.toString()) {
+      throw new UnauthorizedException('Авторизация не пройдена');
+    }
+    const updatedComment = await this.commentModel.findOneAndUpdate(
+      { _id: commentId },
+      {
+        text: text,
+      },
+      { new: true },
+    );
+    return updatedComment;
+  }
+
+  async deleteComment(commentId: ObjectId, userId: ObjectId) {
+
   }
 }
