@@ -7,6 +7,8 @@ class PlayerStore {
     makeAutoObservable(this)
   }
 
+  audio = null as HTMLAudioElement | null;
+
   currentState: IPlayer = {
     currentTime: 0,
     duration: 0,
@@ -37,6 +39,34 @@ class PlayerStore {
 
   setActive = (track: ITrack) => {
     this.currentState.active = track;
+  }
+
+  initAudio = (audio: HTMLAudioElement) => {
+    this.audio = audio;
+  }
+
+  setAudio = () => {
+    if (this.currentState.active && this.audio) {
+      this.audio.src = this.currentState.active ? `http://localhost:9000/${this.currentState.active.audio}` : '';
+      this.audio.volume = this.currentState.volume / 100;
+      this.audio.onloadedmetadata = () => {
+        this.audio && this.setDuration(this.audio.duration)
+      }
+      this.audio.ontimeupdate = () => {
+        this.audio && this.setCurrentTime(this.audio.currentTime)
+      }
+      this.audio.currentTime = this.currentState.currentTime
+    }
+  }
+
+  playAudio = () => {
+    this.playTrack()
+    this.audio && this.audio.play()
+  }
+
+  pauseAudio = () => {
+    this.pauseTrack()
+    this.audio && this.audio.pause()
   }
 }
 

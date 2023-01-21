@@ -5,10 +5,10 @@ import { IComment } from "../types/comment";
 import dayjs from "dayjs";
 import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
-import CheckIcon from '@mui/icons-material/Check';
 import axios from "../axios";
 import { ITrack } from "../types/track";
 import { observer } from "mobx-react";
+import { start } from "repl";
 
 interface CommentBlockProps {
   comments: IComment[];
@@ -103,7 +103,8 @@ const CommentBlock: React.FC<CommentBlockProps> = ({comments, track, setTrack}) 
           sx={{
             width: 50, 
             height: 50, 
-            bgcolor: '#5824f3'
+            bgcolor: '#5824f3',
+            alignSelf: 'start',
         }}/>        
         <TextField 
         label="Оставить комментарий..."
@@ -112,7 +113,8 @@ const CommentBlock: React.FC<CommentBlockProps> = ({comments, track, setTrack}) 
         value={comment}
         onChange={(evt: React.ChangeEvent<HTMLInputElement>) => setComment(evt.target.value)}
         />
-        <Button 
+        <Button
+        sx={{alignSelf: 'end'}}
         variant='contained' 
         onClick={postComment}
         >

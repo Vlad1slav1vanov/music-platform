@@ -31,29 +31,29 @@ let audio: HTMLAudioElement;
 const Player: React.FC = () => {
   const activeTrack = playerStore.currentState.active;
   
-  const setAudio = () => {
-    if (playerStore.currentState.active) {
-      audio.src = activeTrack ? `http://localhost:9000/${activeTrack?.audio}` : '';
-      audio.volume = playerStore.currentState.volume / 100;
-      audio.onloadedmetadata = () => {
-        playerStore.setDuration(audio.duration)
-      }
-      audio.ontimeupdate = () => {
-        playerStore.setCurrentTime(audio.currentTime)
-      }
-      audio.currentTime = playerStore.currentState.currentTime
-    }
-  }
+  // const setAudio = () => {
+  //   if (playerStore.currentState.active) {
+  //     audio.src = activeTrack ? `http://localhost:9000/${activeTrack?.audio}` : '';
+  //     audio.volume = playerStore.currentState.volume / 100;
+  //     audio.onloadedmetadata = () => {
+  //       playerStore.setDuration(audio.duration)
+  //     }
+  //     audio.ontimeupdate = () => {
+  //       playerStore.setCurrentTime(audio.currentTime)
+  //     }
+  //     audio.currentTime = playerStore.currentState.currentTime
+  //   }
+  // }
 
-  const play = () => {
-    if (playerStore.currentState.pause) {
-      playerStore.playTrack()
-      audio.play()
-    } else {
-      playerStore.pauseTrack()
-      audio.pause()
-    }
-  }
+  // const play = () => {
+  //   if (playerStore.currentState.pause) {
+  //     playerStore.playTrack()
+  //     audio.play()
+  //   } else {
+  //     playerStore.pauseTrack()
+  //     audio.pause()
+  //   }
+  // }
 
   const changeVolume = (evt: React.ChangeEvent<HTMLInputElement>) => {
     audio.volume = Number(evt.target.value) / 100
@@ -69,8 +69,9 @@ const Player: React.FC = () => {
     if (!audio) {
       audio = new Audio();
     } else {
-      setAudio();
-      play();
+      playerStore.initAudio(audio)
+      playerStore.setAudio();
+      playerStore.playAudio();
     }
   }, [activeTrack])
 
@@ -89,21 +90,28 @@ const Player: React.FC = () => {
           sx={{width: 30, height: 30}}
           />
         </IconButton>
+        {playerStore.currentState.pause
+        ?
         <IconButton
         sx={{width: 50, height: 50}}
-        onClick={() => play()}
+        onClick={() => playerStore.playAudio()}
         >
-          {playerStore.currentState.pause
-          ? <PlayCircle 
+            <PlayCircle 
             htmlColor="white" 
             sx={{width: 50, height: 50}} 
             />
-          : <Pause 
+        </IconButton>
+        :
+        <IconButton
+        sx={{width: 50, height: 50}}
+        onClick={() => playerStore.pauseAudio()}
+        >
+            <Pause 
             htmlColor="white" 
             sx={{width: 40, height: 40}}  
             />
-          }
-        </IconButton>
+        </IconButton>        
+        }
         <IconButton
         sx={{width: 50, height: 50}}
         >
