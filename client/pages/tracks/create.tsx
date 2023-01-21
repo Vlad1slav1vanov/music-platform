@@ -6,7 +6,7 @@ import axios from '../../axios';
 import { useRouter } from 'next/router';
 import theme from '../../theme/theme';
 import styled from 'styled-components';
-import UserStore from '../../store/UserStore';
+import {userStore} from '../../store/UserStore';
 
 const StyledForm = styled(Box)`
   display: flex;
@@ -117,7 +117,7 @@ const Create = () => {
   }
 
   React.useEffect(() => {
-    UserStore.authMe();
+    userStore.authMe();
   }, [])
 
   return (

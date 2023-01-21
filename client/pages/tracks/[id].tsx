@@ -72,7 +72,9 @@ const TrackPage = ({serverTrack}: any) => {
               <Typography variant="h6">Количество прослушиваний: {track.listens}</Typography>
             </Box>
           </Grid>
-          <StyledAccordion >
+          {track.text
+          &&
+          <StyledAccordion sx={{marginBottom: '30px'}} >
             <AccordionSummary
             expandIcon={<ExpandMoreIcon color="primary" />}
             >
@@ -84,13 +86,14 @@ const TrackPage = ({serverTrack}: any) => {
               </Typography>
             </AccordionDetails>
           </StyledAccordion>
+          }
         </Grid>
         <Grid>
-          <StyledAccordion >
+          <StyledAccordion>
             <AccordionSummary
             expandIcon={<ExpandMoreIcon color="primary" />}
             >
-              <Typography color='primary' variant="h5">Комментарии</Typography>
+              <Typography color='primary' variant="h5">Комментарии ({track.commentsCount})</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <CommentBlock comments={track.comments}/>
