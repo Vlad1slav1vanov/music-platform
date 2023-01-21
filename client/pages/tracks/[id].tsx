@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { Button, Grid, Box, TextField, List, ListItem, ThemeProvider, Typography, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { Button, Grid, Box, ThemeProvider, Typography, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import axios from "../../axiosWithoutAuth";
 import { GetServerSideProps } from "next";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -8,7 +8,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import React from "react";
 import MainLayout from "../../layouts/MainLayout";
 import { ITrack } from "../../types/track";
-import { useInput } from "../../hooks/useInput";
 import theme from "../../theme/theme";
 import styled from "styled-components";
 import CommentBlock from "../../components/CommentBlock";
@@ -25,7 +24,10 @@ border: 1px solid grey;
 const TrackPage = ({serverTrack}: any) => {
   const [track, setTrack] = React.useState<ITrack>(serverTrack)
   const router = useRouter();
-  console.log(track)
+
+  React.useEffect(() => {
+    userStore.authMe()
+  })
 
   return (
     <ThemeProvider theme={theme}>
@@ -33,7 +35,10 @@ const TrackPage = ({serverTrack}: any) => {
       title={`Музыкальная платформа ${track.name} - ${track.artist}`}
       keywords={`Песня, ${track.name}, Исполнитель, ${track.artist}`}
       >
-        <Grid container direction='column' >
+        <Grid 
+        container 
+        direction='column' 
+        >
           <Button
           variant="outlined"
           onClick={() => router.push('/tracks')}
@@ -52,10 +57,22 @@ const TrackPage = ({serverTrack}: any) => {
             height={300} 
             alt=""
             />
-            <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '40px'}}>
-              <Typography variant="h3">{track.name}</Typography>
-              <Typography variant="h5">Исполнитель: {track.artist}</Typography>
-              <Typography variant="h6">Количество прослушиваний: {track.listens}</Typography>
+            <Box 
+            sx={{
+              display: 'flex', 
+              flexDirection: 'column', 
+              justifyContent: 'center', 
+              gap: '40px'
+            }}>
+              <Typography variant="h3">
+                {track.name}
+              </Typography>
+              <Typography variant="h5">
+                Исполнитель: {track.artist}
+              </Typography>
+              <Typography variant="h6">
+                Количество прослушиваний: {track.listens}
+              </Typography>
             </Box>
           </Grid>
           {track.text
@@ -79,10 +96,19 @@ const TrackPage = ({serverTrack}: any) => {
             <AccordionSummary
             expandIcon={<ExpandMoreIcon color="primary" />}
             >
-              <Typography color='primary' variant="h5">Комментарии ({track.commentsCount})</Typography>
+              <Typography 
+              color='primary' 
+              variant="h5"
+              >
+                Комментарии ({track.commentsCount})
+              </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <CommentBlock comments={track.comments} track={track} setTrack={setTrack} />
+              <CommentBlock 
+              comments={track.comments} 
+              track={track} 
+              setTrack={setTrack} 
+              />
             </AccordionDetails>
           </StyledAccordion>
         </Grid>

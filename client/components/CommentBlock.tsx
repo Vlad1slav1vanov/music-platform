@@ -5,8 +5,10 @@ import { IComment } from "../types/comment";
 import dayjs from "dayjs";
 import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
+import CheckIcon from '@mui/icons-material/Check';
 import axios from "../axios";
 import { ITrack } from "../types/track";
+import { observer } from "mobx-react";
 
 interface CommentBlockProps {
   comments: IComment[];
@@ -16,6 +18,9 @@ interface CommentBlockProps {
 
 const CommentBlock: React.FC<CommentBlockProps> = ({comments, track, setTrack}) => {
   const [comment, setComment] = React.useState('');
+  const [editingComment, setEditingComment] = React.useState<IComment | null>(null);
+  const [editCommentText, setEditCommentText] = React.useState('');
+
   const postComment = async () => {
     try {
       const request = {
@@ -30,7 +35,11 @@ const CommentBlock: React.FC<CommentBlockProps> = ({comments, track, setTrack}) 
           text: data.text,
           user: userStore.userState && userStore.userState
         }
-        setTrack({...track, comments: [...comments, newComment]});
+        setTrack({
+          ...track, 
+          comments: [...comments, newComment], 
+          commentsCount: track.commentsCount + 1
+        });
         setComment('');
       }
     } catch (err) {
@@ -41,16 +50,38 @@ const CommentBlock: React.FC<CommentBlockProps> = ({comments, track, setTrack}) 
   const deleteComment = async (comment: IComment) => {
     try {
       const response = await axios.delete(`/tracks/comment/${comment._id}`);
-      setTrack({...track, comments: comments.filter(item => item._id !== comment._id)});
+      setTrack({
+        ...track, 
+        comments: comments.filter(item => item._id !== comment._id), 
+        commentsCount: track.commentsCount + 1
+      });
       return response;
     } catch (err) {
       console.warn(err)
     }
   }
 
-  React.useEffect(() => {
-    userStore.authMe()
-  })
+  const editComment = async (comment: IComment) => {
+    try {
+      const request = {
+        text: editCommentText,
+      }
+      await axios.patch(`/tracks/comment/${comment._id}`, request);
+      const commentIndex = comments.findIndex((item) => item._id === comment._id);
+        const updatedComment = {
+            ...comments[commentIndex],
+            text: editCommentText
+        };
+        const newComments = [
+            ...comments.slice(0, commentIndex),
+            updatedComment,
+            ...comments.slice(commentIndex + 1)
+        ];
+        setTrack({ ...track, comments: newComments });
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <Grid sx={{
@@ -125,24 +156,50 @@ const CommentBlock: React.FC<CommentBlockProps> = ({comments, track, setTrack}) 
           {userStore.userState?._id === comment.user._id
           &&
           <Box>
-            <IconButton>
+            <IconButton onClick={() => {
+            setEditCommentText(comment.text)
+            setEditingComment(comment)
+            }}>
               <EditIcon color="primary" />
             </IconButton>
-            <IconButton>
-              <ClearIcon 
-              color="error"
-              onClick={() => deleteComment(comment)} 
-              />
+            <IconButton onClick={() => deleteComment(comment)} >
+              <ClearIcon color="error" />
             </IconButton>
           </Box>
           }
         </Box>
-        <Typography 
+        {editingComment === comment 
+        ?
+        <Grid 
+        sx={{
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '15px'
+        }}>
+          <TextField 
+          label="Редактировать комментарий"
+          value={editCommentText}
+          onChange={(evt) => setEditCommentText(evt.target.value)}
+          />
+          <Button
+          onClick={() => editComment(comment)}
+          >
+            Сохранить
+          </Button>
+          <Button
+          onClick={() => setEditingComment(null)}
+          >
+            Сброс
+          </Button>
+        </Grid>
+        :
+        <Typography
         fontSize={18} 
         whiteSpace='pre'
         >
           {comment.text}
-        </Typography>
+        </Typography>        
+        }
         <Typography color="grey" >
           Опубликовано {dayjs(comment.createdAt).format("DD.MM.YY в HH:mm")}
         </Typography>
@@ -152,4 +209,4 @@ const CommentBlock: React.FC<CommentBlockProps> = ({comments, track, setTrack}) 
   )
 }
 
-export default CommentBlock;
+export default observer(CommentBlock);
