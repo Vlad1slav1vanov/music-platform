@@ -5,13 +5,53 @@ import { IComment } from "../types/comment";
 import dayjs from "dayjs";
 import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
+import axios from "../axios";
+import { ITrack } from "../types/track";
 
 interface CommentBlockProps {
   comments: IComment[];
+  track: ITrack;
+  setTrack: React.Dispatch<React.SetStateAction<ITrack>>;
 }
 
-const CommentBlock: React.FC<CommentBlockProps> = ({comments}) => {
-  console.log(comments)
+const CommentBlock: React.FC<CommentBlockProps> = ({comments, track, setTrack}) => {
+  const [comment, setComment] = React.useState('');
+  const postComment = async () => {
+    try {
+      const request = {
+        trackId: track._id,
+        text: comment,
+      };
+      const {data} = await axios.post('/tracks/comment', request);
+      if (userStore.userState) {
+        const newComment: IComment = {
+          _id: data._id,
+          createdAt: data.createdAt,
+          text: data.text,
+          user: userStore.userState && userStore.userState
+        }
+        setTrack({...track, comments: [...comments, newComment]});
+        setComment('');
+      }
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
+  const deleteComment = async (comment: IComment) => {
+    try {
+      const response = await axios.delete(`/tracks/comment/${comment._id}`);
+      setTrack({...track, comments: comments.filter(item => item._id !== comment._id)});
+      return response;
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
+  React.useEffect(() => {
+    userStore.authMe()
+  })
+
   return (
     <Grid sx={{
       display: 'flex', 
@@ -19,6 +59,8 @@ const CommentBlock: React.FC<CommentBlockProps> = ({comments}) => {
       'column', 
       gap: '40px' 
     }}>
+      {userStore.userState 
+      &&
       <Grid sx={{
         display: 'flex', 
         flexDirection: 'row', 
@@ -26,7 +68,7 @@ const CommentBlock: React.FC<CommentBlockProps> = ({comments}) => {
         alignItems: 'center'
       }}>
         <Avatar 
-          src={userStore.userState?.avatarUrl}
+          src={`http://localhost:9000/${userStore.userState?.avatarUrl}`}
           sx={{
             width: 50, 
             height: 50, 
@@ -36,14 +78,20 @@ const CommentBlock: React.FC<CommentBlockProps> = ({comments}) => {
         label="Оставить комментарий..."
         multiline
         fullWidth
+        value={comment}
+        onChange={(evt: React.ChangeEvent<HTMLInputElement>) => setComment(evt.target.value)}
         />
-        <Button variant='contained' >
+        <Button 
+        variant='contained' 
+        onClick={postComment}
+        >
           Отправить
         </Button>
       </Grid>
+      }
       {comments.map((comment) => 
       <Card 
-      key={comment._id} 
+      key={comment._id}
       sx={{
         display: 'flex', 
         flexDirection: 'column', 
@@ -64,7 +112,7 @@ const CommentBlock: React.FC<CommentBlockProps> = ({comments}) => {
           gap: '20px'
           }}>
             <Avatar 
-              src={comment.user.avatarUrl}
+              src={`http://localhost:9000/${comment.user.avatarUrl}`}
               sx={{
                 width: 40, 
                 height: 40, 
@@ -74,14 +122,17 @@ const CommentBlock: React.FC<CommentBlockProps> = ({comments}) => {
               {comment.user.fullName}
             </Typography>
           </Box>
-          {userStore.userState?.userId === comment.user.userId
+          {userStore.userState?._id === comment.user._id
           &&
           <Box>
             <IconButton>
-              <EditIcon />
+              <EditIcon color="primary" />
             </IconButton>
             <IconButton>
-              <ClearIcon color="error" />
+              <ClearIcon 
+              color="error"
+              onClick={() => deleteComment(comment)} 
+              />
             </IconButton>
           </Box>
           }
@@ -93,7 +144,7 @@ const CommentBlock: React.FC<CommentBlockProps> = ({comments}) => {
           {comment.text}
         </Typography>
         <Typography color="grey" >
-          Опубликовано: {dayjs(comment.createdAt).format("DD.MM.YY")}
+          Опубликовано {dayjs(comment.createdAt).format("DD.MM.YY в HH:mm")}
         </Typography>
       </Card>
       )}

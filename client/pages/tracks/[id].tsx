@@ -25,21 +25,7 @@ border: 1px solid grey;
 const TrackPage = ({serverTrack}: any) => {
   const [track, setTrack] = React.useState<ITrack>(serverTrack)
   const router = useRouter();
-  const username = useInput('');
-  const text = useInput('');
-
-  const addComment = async () => {
-    try {
-      const response = await axios.post('/tracks/comment', {
-        username: username.value,
-        text: text.value,
-        trackId: track._id,
-      })
-      setTrack({...track, comments: [...track.comments, response.data]})
-    } catch (err) {
-      console.warn(err)
-    }
-  }
+  console.log(track)
 
   return (
     <ThemeProvider theme={theme}>
@@ -96,7 +82,7 @@ const TrackPage = ({serverTrack}: any) => {
               <Typography color='primary' variant="h5">Комментарии ({track.commentsCount})</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <CommentBlock comments={track.comments}/>
+              <CommentBlock comments={track.comments} track={track} setTrack={setTrack} />
             </AccordionDetails>
           </StyledAccordion>
         </Grid>

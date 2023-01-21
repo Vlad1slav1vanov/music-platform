@@ -37,7 +37,8 @@ const ClippedDrawer: React.FC<ClippedDrawerProps> = ({children, searchIsAvailabl
       sx={{ 
         flexGrow: 1, 
         p: 3, 
-        marginTop: '60px' 
+        marginTop: '60px',
+        marginBottom: '90px'
       }}
       >
         {children}
