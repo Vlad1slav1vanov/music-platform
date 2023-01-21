@@ -30,30 +30,6 @@ let audio: HTMLAudioElement;
 
 const Player: React.FC = () => {
   const activeTrack = playerStore.currentState.active;
-  
-  // const setAudio = () => {
-  //   if (playerStore.currentState.active) {
-  //     audio.src = activeTrack ? `http://localhost:9000/${activeTrack?.audio}` : '';
-  //     audio.volume = playerStore.currentState.volume / 100;
-  //     audio.onloadedmetadata = () => {
-  //       playerStore.setDuration(audio.duration)
-  //     }
-  //     audio.ontimeupdate = () => {
-  //       playerStore.setCurrentTime(audio.currentTime)
-  //     }
-  //     audio.currentTime = playerStore.currentState.currentTime
-  //   }
-  // }
-
-  // const play = () => {
-  //   if (playerStore.currentState.pause) {
-  //     playerStore.playTrack()
-  //     audio.play()
-  //   } else {
-  //     playerStore.pauseTrack()
-  //     audio.pause()
-  //   }
-  // }
 
   const changeVolume = (evt: React.ChangeEvent<HTMLInputElement>) => {
     audio.volume = Number(evt.target.value) / 100
@@ -68,9 +44,12 @@ const Player: React.FC = () => {
   React.useEffect(() => {
     if (!audio) {
       audio = new Audio();
-    } else {
-      playerStore.initAudio(audio)
-      playerStore.setAudio();
+    }
+    
+    playerStore.initAudio(audio)
+    playerStore.setAudio();
+    
+    if (!playerStore.currentState.pause) {
       playerStore.playAudio();
     }
   }, [activeTrack])
