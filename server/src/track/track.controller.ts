@@ -39,6 +39,16 @@ export class TrackController {
     return this.trackService.getAll(count, offset);
   }
 
+  @Get('/new')
+  getNew(@Query('count') count: number, @Query('offset') offset: number) {
+    return this.trackService.getNew(count, offset);
+  }
+
+  @Get('/popular')
+  getPopular(@Query('count') count: number, @Query('offset') offset: number) {
+    return this.trackService.getPopular(count, offset);
+  }
+
   @Get('/search')
   search(@Query('query') query: string) {
     return this.trackService.search(query);

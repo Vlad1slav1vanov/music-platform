@@ -37,6 +37,24 @@ export class TrackService {
     return tracks;
   }
 
+  async getNew(count = 10, offset = 0): Promise<Track[]> {
+    const tracks = await this.trackModel
+      .find()
+      .sort({ createdAt: -1 })
+      .skip(offset)
+      .limit(count);
+    return tracks;
+  }
+
+  async getPopular(count = 10, offset = 0): Promise<Track[]> {
+    const tracks = await this.trackModel
+      .find()
+      .sort({ listens: -1 })
+      .skip(offset)
+      .limit(count);
+    return tracks;
+  }
+
   async getOne(id: ObjectId): Promise<Track> {
     const track = await this.trackModel.findById(id).populate({
       path: 'comments',
