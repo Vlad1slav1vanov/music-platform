@@ -82,12 +82,13 @@ const Header: React.FC<HeaderProps> = ({searchIsAvailable}) => {
       ?
       <Grid
       marginLeft='auto' 
-      sx={{display: 'flex', 
-          gap: '20px', 
-          alignItems: 'center'}}
+      sx={{
+        display: 'flex', 
+        gap: '20px', 
+        alignItems: 'center'}}
       >
         <Avatar
-        sx={{width: 30, height: 30}}
+        sx={{width: 40, height: 40}}
         src={`http://localhost:9000/${userStore.userState.avatarUrl}`} 
         />
         <Typography

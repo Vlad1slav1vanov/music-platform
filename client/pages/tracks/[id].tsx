@@ -12,6 +12,7 @@ import theme from "../../theme/theme";
 import styled from "styled-components";
 import CommentBlock from "../../components/CommentBlock";
 import { userStore } from "../../store/UserStore";
+import dayjs from "dayjs";
 
 const StyledAccordion = styled(Accordion)`
 border: 1px solid grey;
@@ -72,6 +73,9 @@ const TrackPage = ({serverTrack}: any) => {
               </Typography>
               <Typography variant="h6">
                 Количество прослушиваний: {track.listens}
+              </Typography>
+              <Typography variant="h6">
+                Загружен на сайт: {dayjs(track.createdAt).format("DD.MM.YY")}
               </Typography>
             </Box>
           </Grid>

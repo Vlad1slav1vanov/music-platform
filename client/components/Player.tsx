@@ -8,6 +8,7 @@ import TrackProgress from "./TrackProgress";
 import Volume from "./Volume";
 import { observer } from "mobx-react";
 import styled from "styled-components";
+import { trackStore } from "../store/TrackStore";
 
 const PlayerWrapper = styled(Box)`
   position: fixed;
@@ -22,11 +23,7 @@ const PlayerWrapper = styled(Box)`
   background-color: #5824f3;
 `
 
-// not initialized audio var
-
 let audio: HTMLAudioElement;
-
-// Component
 
 const Player: React.FC = () => {
   const activeTrack = playerStore.currentState.active;
@@ -41,6 +38,34 @@ const Player: React.FC = () => {
     playerStore.setCurrentTime(Number(evt.target.value))
   }
 
+  const previousTrack = () => {
+    const activeTrack = trackStore.currentTracks.findIndex(
+      track => track === playerStore.currentState.active
+    )
+
+    playerStore.setCurrentTime(0);
+
+    if (activeTrack === 0) {
+      return;
+    }
+
+    playerStore.setActive(trackStore.currentTracks[activeTrack - 1])
+  }
+
+  const nextTrack = () => {
+    const activeTrack = trackStore.currentTracks.findIndex(
+      track => track === playerStore.currentState.active
+    )
+
+    playerStore.setCurrentTime(0);
+
+    if (activeTrack === trackStore.currentTracks.length - 1) {
+      return;
+    }
+
+    playerStore.setActive(trackStore.currentTracks[activeTrack + 1])
+  }
+
   React.useEffect(() => {
     if (!audio) {
       audio = new Audio();
@@ -48,7 +73,7 @@ const Player: React.FC = () => {
     
     playerStore.initAudio(audio)
     playerStore.setAudio();
-    
+
     if (!playerStore.currentState.pause) {
       playerStore.playAudio();
     }
@@ -63,6 +88,7 @@ const Player: React.FC = () => {
       <Grid sx={{display: 'flex', alignItems: 'center'}}>
         <IconButton
         sx={{width: 50, height: 50}}
+        onClick={previousTrack}
         >
           <SkipPreviousIcon
           htmlColor="white" 
@@ -93,6 +119,7 @@ const Player: React.FC = () => {
         }
         <IconButton
         sx={{width: 50, height: 50}}
+        onClick={nextTrack}
         >
           <SkipNextIcon
           htmlColor="white" 

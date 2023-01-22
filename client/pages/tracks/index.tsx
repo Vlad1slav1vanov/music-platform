@@ -23,7 +23,11 @@ const Index = () => {
         >
           Все треки
         </Typography>
-        <Box  sx={{display: 'flex', gap: '15px', alignItems: 'center'}}>
+        <Box sx={{
+          display: 'flex', 
+          gap: '15px', 
+          alignItems: 'center'
+        }}>
           <Typography variant='h6' >Не нашли то, что искали? Загрузите свой трек!</Typography>
           <Button 
             onClick={() => router.push('/tracks/create')}
@@ -34,7 +38,10 @@ const Index = () => {
         </Box>
         <Grid container justifyContent='center'>
             <Box p={4}>
-              <Grid container justifyContent='space-between'>
+              <Grid 
+              container 
+              justifyContent='space-between'
+              >
               </Grid>
             </Box>
             <TrackList tracks={trackStore.currentTracks} />
