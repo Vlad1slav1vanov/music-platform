@@ -1,5 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
-import { Button, Grid, Box, ThemeProvider, Typography, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { 
+  Button, 
+  Grid, 
+  Box, 
+  ThemeProvider, 
+  Typography, 
+  Accordion, 
+  AccordionSummary, 
+  AccordionDetails
+} from "@mui/material";
 import axios from "../../axiosWithoutAuth";
 import { GetServerSideProps } from "next";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -44,14 +53,18 @@ const TrackPage = ({serverTrack}: any) => {
           variant="outlined"
           onClick={() => router.push('/tracks')}
           startIcon={<ArrowBackIcon/>}
-          sx={{marginBottom: '30px', width: 100}}
-          >
+          sx={{
+            marginBottom: '30px', 
+            width: 100
+          }}>
             назад
           </Button>
           <Grid 
           container
-          sx={{gap: '60px', marginBottom: '30px'}}
-          >
+          sx={{
+            gap: '60px', 
+            marginBottom: '30px'
+          }}>
             <img
             src={`http://localhost:9000/${track.picture}`}
             width={300} 
@@ -75,7 +88,7 @@ const TrackPage = ({serverTrack}: any) => {
                 Количество прослушиваний: {track.listens}
               </Typography>
               <Typography variant="h6">
-                Загружен на сайт: {dayjs(track.createdAt).format("DD.MM.YY")}
+                Дата загрузки: {dayjs(track.createdAt).format("DD.MM.YY")}
               </Typography>
             </Box>
           </Grid>
@@ -85,10 +98,18 @@ const TrackPage = ({serverTrack}: any) => {
             <AccordionSummary
             expandIcon={<ExpandMoreIcon color="primary" />}
             >
-              <Typography color='primary' variant="h5">Текст песни</Typography>
+              <Typography 
+              color='primary' 
+              variant="h5"
+              >
+                Текст песни
+              </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography variant="h6" whiteSpace='pre'>
+              <Typography 
+              variant="h6" 
+              whiteSpace='pre'
+              >
                 {track.text}
               </Typography>
             </AccordionDetails>
@@ -124,15 +145,14 @@ const TrackPage = ({serverTrack}: any) => {
 export default TrackPage;
 
 export const getServerSideProps: GetServerSideProps = async ({params}) => {
-  if (params !== undefined) {
+  if (params) {
     const response = await axios.get(`/tracks/${params.id}`)
     return {
       props: {
         serverTrack: response.data as ITrack
       }
     }
-  }
-  else {
+  } else {
     return {props: {}}
   }
 };

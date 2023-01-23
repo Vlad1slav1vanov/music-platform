@@ -44,7 +44,9 @@ const Index = () => {
           alignItems: 'center',
           marginBottom: '30px'
         }}>
-          <Typography variant='h6' >Не нашли то, что искали? Загрузите свой трек!</Typography>
+          <Typography variant='h6' >
+            Не нашли то, что искали? Загрузите свой трек!
+          </Typography>
           <Button 
             onClick={() => router.push('/tracks/create')}
             variant="contained"
