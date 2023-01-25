@@ -20,7 +20,12 @@ export class TrackService {
     private fileService: FileService,
   ) {}
 
-  async create(dto: CreateTrackDto, picture, audio): Promise<Track> {
+  async create(
+    dto: CreateTrackDto,
+    picture,
+    audio,
+    userId: ObjectId,
+  ): Promise<Track> {
     const audioPath = this.fileService.createFile(FileType.AUDIO, audio);
     const picturePath = this.fileService.createFile(FileType.IMAGE, picture);
     const track = await this.trackModel.create({
@@ -28,6 +33,7 @@ export class TrackService {
       listens: 0,
       audio: audioPath,
       picture: picturePath,
+      user: userId,
     });
     return track;
   }
@@ -63,8 +69,14 @@ export class TrackService {
     return track;
   }
 
-  async delete(id: ObjectId): Promise<Track['name']> {
+  async delete(id: ObjectId, userId: ObjectId): Promise<Track['name']> {
     const track = await this.trackModel.findByIdAndDelete(id);
+    if (track.user.toString() !== userId.toString()) {
+      throw new HttpException(
+        'Только автор может удалить трек',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     return track.name;
   }
 

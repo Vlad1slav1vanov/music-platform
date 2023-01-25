@@ -1,7 +1,6 @@
 import { Box, Button, Grid, TextField, ThemeProvider, Typography } from '@mui/material';
 import React from 'react';
 import MainLayout from '../../layouts/MainLayout';
-import { useInput } from '../../hooks/useInput';
 import axios from '../../axios';
 import { useRouter } from 'next/router';
 import theme from '../../theme/theme';
@@ -146,20 +145,28 @@ const Create = () => {
             label="Название" 
             required 
             value={form.name}
-            onChange={(evt: React.ChangeEvent<HTMLInputElement>) => changeTextField(evt, 'name')}
+            onChange={
+              (evt: React.ChangeEvent<HTMLInputElement>) => 
+              changeTextField(evt, 'name')
+            }
             />
             <TextField 
             label="Исполнитель" 
             required 
             value={form.artist}
-            onChange={(evt: React.ChangeEvent<HTMLInputElement>) => changeTextField(evt, 'artist')}
-
+            onChange={
+              (evt: React.ChangeEvent<HTMLInputElement>) => 
+              changeTextField(evt, 'artist')
+            }
             />
             <TextField 
             label="Текст" 
             multiline 
             value={form.text}
-            onChange={(evt: React.ChangeEvent<HTMLInputElement>) => changeTextField(evt, 'text')}
+            onChange={
+              (evt: React.ChangeEvent<HTMLInputElement>) => 
+              changeTextField(evt, 'text')
+            }
             />
           </Grid>
         </StyledForm>

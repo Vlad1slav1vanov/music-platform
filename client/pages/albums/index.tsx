@@ -1,4 +1,4 @@
-import { Box, ThemeProvider } from "@mui/material";
+import { Box, Grid, ThemeProvider, Typography } from "@mui/material";
 import React from "react";
 import MainLayout from "../../layouts/MainLayout";
 import theme from "../../theme/theme";
@@ -7,9 +7,9 @@ const Index: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <MainLayout>
-        <Box>
-          ALBUMS
-        </Box>
+        <Grid container>
+          <Typography variant="h4">Альбомы</Typography>
+        </Grid>
       </MainLayout>
     </ThemeProvider>
   )

@@ -8,6 +8,7 @@ import {
   Post,
   Query,
   Req,
+  Res,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -23,15 +24,16 @@ import { TrackService } from './track.service';
 export class TrackController {
   constructor(private trackService: TrackService) {}
   @Post()
+  @UseGuards(CheckAuthGuard)
   @UseInterceptors(
     FileFieldsInterceptor([
       { name: 'picture', maxCount: 1 },
       { name: 'audio', maxCount: 1 },
     ]),
   )
-  create(@UploadedFiles() files, @Body() dto: CreateTrackDto) {
+  create(@UploadedFiles() files, @Body() dto: CreateTrackDto, @Req() req) {
     const { picture, audio } = files;
-    return this.trackService.create(dto, picture[0], audio[0]);
+    return this.trackService.create(dto, picture[0], audio[0], req.userId);
   }
 
   @Get()
@@ -60,8 +62,9 @@ export class TrackController {
   }
 
   @Delete(':id')
-  delete(@Param('id') id: ObjectId) {
-    return this.trackService.delete(id);
+  @UseGuards(CheckAuthGuard)
+  delete(@Param('id') id: ObjectId, @Req() req) {
+    return this.trackService.delete(id, req.userId);
   }
 
   @Post('/listen/:id')
