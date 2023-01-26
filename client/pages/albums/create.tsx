@@ -11,11 +11,17 @@ import AddTrackForm from "../../components/create-album/AddTrackForm";
 
 const ButtonBack = styled(Button)`
   width: 150px;
-  margin-bottom: 30px;
+`
+
+const ButtonAddTrack = styled(Button)`
+  max-width: 200px;
 `
 
 const Index: React.FC = () => {
   const router = useRouter();
+  const [artistName, setArtistName] = React.useState('');
+  const [pictureUrl, setPictureUrl] = React.useState('');
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
   const routeBack = () => {
     router.push('/albums')
@@ -24,7 +30,7 @@ const Index: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <MainLayout>
-        <Grid container direction="column">
+        <Grid container direction="column" gap={5} >
           <ButtonBack
             variant="outlined"
             onClick={routeBack}
@@ -32,16 +38,27 @@ const Index: React.FC = () => {
             >
               назад
             </ButtonBack>
-          <Typography 
-          marginBottom='30px' 
-          variant="h4"
+          <Typography variant="h4">Загрузить альбом</Typography>
+          <CreateAlbumForm 
+          artistName={artistName} 
+          setArtistName={setArtistName}
+          pictureUrl={pictureUrl}
+          setPictureUrl={setPictureUrl}
+          />
+          <AddTrackForm 
+          isOpen={modalIsOpen} 
+          onClose={() => setModalIsOpen(false)}
+          artistName={artistName} 
+          picture={pictureUrl}
+          />
+          <ButtonAddTrack
+          variant="contained" 
+          onClick={() => setModalIsOpen(true)} 
           >
-            Загрузить альбом
-          </Typography>
-          <CreateAlbumForm />         
+            Добавить трек
+          </ButtonAddTrack>
         </Grid>
       </MainLayout>
-      <AddTrackForm />
     </ThemeProvider>
   )
 }

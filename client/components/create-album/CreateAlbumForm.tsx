@@ -3,6 +3,15 @@ import { observer } from "mobx-react";
 import React from "react";
 import styled from "styled-components";
 
+// PropsInterface
+
+interface CreateAlbumProps {
+  artistName: string;
+  setArtistName: (name: string) => void;
+  pictureUrl: string;
+  setPictureUrl: (url: string) => void;
+}
+
 //STYLES
 
 const FormWrapper = styled.div`
@@ -37,11 +46,14 @@ const ButtonUploadImage = styled(Button)`
 
 // Component
 
-const CreateAlbumForm: React.FC = () => {
+const CreateAlbumForm: React.FC<CreateAlbumProps> = ({
+  artistName, 
+  setArtistName,
+  pictureUrl,
+  setPictureUrl,
+}) => {
   const [albumName, setAlbumName] = React.useState('');
-  const [artistName, setArtistName] = React.useState('');
-  const [pictureUrl, setPictureUrl] = React.useState('');
-  const [pictureFile, setPictureFile] = React.useState<File | null>(null);
+  const [pictureFile, setPictureFile] = React.useState<File | null>(null)
   const pictureRef = React.useRef<HTMLInputElement | null>(null);
 
   const changePicture = (evt: React.ChangeEvent<HTMLInputElement>) => {

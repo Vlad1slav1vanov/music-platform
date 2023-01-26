@@ -3,10 +3,27 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import styled from "styled-components";
 
+// PropsInterface
+interface AddTrackFormProps {
+  artistName: string;
+  picture: string;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+// Styles
+
 const ContentWrapper = styled(DialogContent)`
   display: flex;
   flex-direction: column;
   gap: 20px;
+`
+
+const TrackImage = styled.img`
+  display: block;
+  width: 150px;
+  height: 150px;
+  align-self: center;
 `
 
 const DeleteTrackWrapper = styled.div`
@@ -23,7 +40,14 @@ const ActionsWrapper = styled(DialogActions)`
   justify-content: center;
 `
 
-const AddTrackForm: React.FC = () => {
+// Component
+
+const AddTrackForm: React.FC<AddTrackFormProps> = ({
+  artistName, 
+  picture, 
+  isOpen, 
+  onClose
+}) => {
   const [trackName, setTrackName] = React.useState('');
   const [trackText, setTrackText] = React.useState('');
   const [audioUrl, setAudioUrl] = React.useState('');
@@ -55,8 +79,14 @@ const AddTrackForm: React.FC = () => {
     setAudioUrl('');
   }
 
+  const refresh = () => {
+    setTrackName('');
+    setTrackText('');
+    deleteAudio();
+  }
+
   return (
-    <Dialog open onClose={() => {}}>
+    <Dialog open={isOpen} onClose={onClose}>
       <DialogTitle>Добавить трек</DialogTitle>
       <ContentWrapper>
         <DialogContentText>
@@ -64,10 +94,17 @@ const AddTrackForm: React.FC = () => {
           укажите название трека, прикрепите аудиофайл и
           напишите текст песни (если он есть)
         </DialogContentText>
+        <TrackImage src={picture} />
         <TextField
           label="Название трека"
           fullWidth
+          value={trackName}
           onChange={changeTrackName}
+        />
+        <TextField 
+        label="Исполнитель"
+        disabled
+        value={artistName}
         />
         <Button 
         variant="contained"
@@ -98,12 +135,23 @@ const AddTrackForm: React.FC = () => {
           label="Текст трека"
           fullWidth
           multiline
+          value={trackText}
           onChange={changeTrackText}
         />
       </ContentWrapper>
       <ActionsWrapper>
-        <Button variant="contained">Загрузить</Button>
-        <Button variant="outlined" color="error" >Отмена</Button>
+        <Button 
+        variant="contained"
+        >
+          Загрузить
+        </Button>
+        <Button 
+        variant="outlined" 
+        color="error" 
+        onClick={refresh}
+        >
+          Сброс
+        </Button>
       </ActionsWrapper>
   </Dialog>
   )
