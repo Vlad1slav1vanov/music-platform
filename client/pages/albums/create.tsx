@@ -7,6 +7,7 @@ import MainLayout from "../../layouts/MainLayout";
 import theme from "../../theme/theme";
 import { useRouter } from "next/router";
 import CreateAlbumForm from "../../components/create-album/CreateAlbumForm";
+import AddTrackForm from "../../components/create-album/AddTrackForm";
 
 const ButtonBack = styled(Button)`
   width: 150px;
@@ -40,6 +41,7 @@ const Index: React.FC = () => {
           <CreateAlbumForm />         
         </Grid>
       </MainLayout>
+      <AddTrackForm />
     </ThemeProvider>
   )
 }
