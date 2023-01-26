@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import MainLayout from '../../layouts/MainLayout';
 import { useRouter } from 'next/router';
 import { Grid, Button, Box, ThemeProvider, Typography, Tabs, Tab } from '@mui/material';
-import TrackList from '../../components/TrackList';
+import TrackList from '../../components/track-list/TrackList';
 import {trackStore} from '../../store/TrackStore';
 import { observer } from 'mobx-react';
 import theme from '../../theme/theme';

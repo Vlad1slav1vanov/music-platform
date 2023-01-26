@@ -1,6 +1,6 @@
 import { Pause, PlayCircle } from "@mui/icons-material";
 import { Box, Grid, IconButton, Typography } from "@mui/material";
-import {playerStore} from "../store/PlayerStore";
+import {playerStore} from "../../store/PlayerStore";
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import React from "react";
@@ -8,7 +8,7 @@ import TrackProgress from "./TrackProgress";
 import Volume from "./Volume";
 import { observer } from "mobx-react";
 import styled from "styled-components";
-import { trackStore } from "../store/TrackStore";
+import { trackStore } from "../../store/TrackStore";
 
 const PlayerWrapper = styled(Box)`
   position: fixed;

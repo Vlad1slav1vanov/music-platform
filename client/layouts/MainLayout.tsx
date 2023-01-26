@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import React from 'react';
 import styled from 'styled-components';
-import ClippedDrawer from '../components/ClippedDrawer';
-import Player from '../components/Player';
+import ClippedDrawer from '../components/layout-parts/ClippedDrawer';
+import Player from '../components/player/Player';
 
 interface MainLayoutProps {
   children: React.ReactNode;

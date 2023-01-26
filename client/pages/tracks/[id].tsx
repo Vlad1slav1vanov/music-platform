@@ -19,7 +19,7 @@ import MainLayout from "../../layouts/MainLayout";
 import { ITrack } from "../../types/track";
 import theme from "../../theme/theme";
 import styled from "styled-components";
-import CommentBlock from "../../components/CommentBlock";
+import CommentBlock from "../../components/comment-list/CommentBlock";
 import { userStore } from "../../store/UserStore";
 import dayjs from "dayjs";
 

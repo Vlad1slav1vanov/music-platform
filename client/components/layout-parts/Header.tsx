@@ -2,8 +2,8 @@ import React from "react";
 import AppBar from '@mui/material/AppBar';
 import { Avatar, Button, FilledInput, Grid, TextField, Toolbar, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import {trackStore} from "../store/TrackStore"
-import {userStore} from "../store/UserStore";
+import {trackStore} from "../../store/TrackStore"
+import {userStore} from "../../store/UserStore";
 import SearchIcon from '@mui/icons-material/Search';
 import { observer } from "mobx-react";
 import styled from "styled-components";
@@ -50,6 +50,7 @@ const Header: React.FC<HeaderProps> = ({searchIsAvailable}) => {
       }, 500)
     )
   }
+  
   return (
     <AppBar 
     position="fixed" 

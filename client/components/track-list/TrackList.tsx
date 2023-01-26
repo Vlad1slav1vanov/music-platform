@@ -1,7 +1,7 @@
 import { Grid, Box } from "@mui/material";
 import React from "react";
-import { playerStore } from "../store/PlayerStore";
-import { ITrack } from "../types/track";
+import { playerStore } from "../../store/PlayerStore";
+import { ITrack } from "../../types/track";
 import TrackItem from "./TrackItem";
 
 interface TrackListProps {

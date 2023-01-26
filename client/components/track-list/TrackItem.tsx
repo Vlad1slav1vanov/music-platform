@@ -1,10 +1,10 @@
 import { Card, Grid, IconButton, Box } from "@mui/material";
 import styled from "styled-components";
 import React from "react";
-import { ITrack } from "../types/track";
+import { ITrack } from "../../types/track";
 import { Pause, PlayCircle } from "@mui/icons-material";
 import { useRouter } from "next/router";
-import {playerStore} from "../store/PlayerStore";
+import {playerStore} from "../../store/PlayerStore";
 import { observer } from "mobx-react";
 
 interface TrackItemProps {
