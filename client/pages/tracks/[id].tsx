@@ -35,8 +35,7 @@ margin-bottom: 30px;
 
 const ButtonBack = styled(Button)`
   width: 150px;
-  margin-bottom: 30px; 
-  width: 100;
+  margin-bottom: 30px;
 `
 
 const TrackDataWrapper = styled(Box)`
