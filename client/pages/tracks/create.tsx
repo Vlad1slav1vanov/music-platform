@@ -16,9 +16,40 @@ const StyledForm = styled(Box)`
   justify-content: space-between;
 `
 
+const DeleteWrapper = styled.div`
+  display: flex; 
+  gap: 20px;
+  align-items: center; 
+  justify-content: flex-start;
+`
+
+const PictureFileWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center; 
+  gap: 20px; 
+  margin-top: 100px;
+`
+
+const AudioFileWrapper = styled.div`
+  margin-bottom: 15px; 
+  display: flex; 
+  gap: 54px;
+`
+
+const LoadButtonsWrapper = styled.div`
+  width: 100%;
+  display: flex; 
+  justify-content: center;
+  gap: 20px;
+  margin-top: 100px;
+`
+
 const Img = styled.img`
   display: block;
   object-fit: cover;
+  width: 250px;
+  height: 250px;
 `
 
 const TRACK_FORM = {
@@ -129,13 +160,8 @@ const Create = () => {
           Загрузить трек
         </Typography>
         <StyledForm>
-          {form.picture && 
-          <Img 
-          width={250} 
-          height={250} 
-          src={pictureUrl}
-          />          
-          }
+          {form.picture
+          && <Img src={pictureUrl}/>}
           <Grid 
           container 
           direction="column" 
@@ -170,7 +196,7 @@ const Create = () => {
             />
           </Grid>
         </StyledForm>
-        <Box sx={{margin: '40px 0', display: 'flex', gap: '30px'}} >
+        <PictureFileWrapper>
           <input 
           type="file" 
           hidden 
@@ -184,17 +210,16 @@ const Create = () => {
           >
             загрузить обложку
           </Button>
-          {form.picture &&
-          <Button 
-          variant='outlined' 
-          color='error'
-          onClick={deletePicture}
-          >
-            Удалить
-          </Button>
-          }       
-        </Box>
-        <Box sx={{marginBottom: '15px', display: 'flex', gap: '54px'}}>
+          {form.picture
+          && <Button 
+             variant='outlined' 
+             color='error'
+             onClick={deletePicture}
+             >
+              Удалить
+             </Button>}       
+        </PictureFileWrapper>
+        <AudioFileWrapper>
           <input 
           type="file" 
           hidden 
@@ -208,28 +233,20 @@ const Create = () => {
           >
             загрузить аудио
           </Button>
-          {form.audio &&
-          <Box sx={{display: 'flex', gap: '20px', alignItems: 'center', justifyContent: 'flex-start'}}>
-            <Button 
-            variant='outlined' 
-            color='error' 
-            hidden
-            onClick={deleteAudio}
-            >
-              Удалить
-            </Button>
-            <Typography>{audioName}</Typography>
-          </Box>
-          }
-        </Box>
-        <Box 
-        sx={{
-        width: '100%', 
-        display: 'flex', 
-        justifyContent: 'center', 
-        gap: '20px', 
-        marginTop: '100px'
-        }}>
+          {form.audio
+          && <DeleteWrapper>
+              <Button 
+                variant='outlined' 
+                color='error' 
+                hidden
+                onClick={deleteAudio}
+                >
+                  Удалить
+              </Button>
+              <Typography>{audioName}</Typography>
+             </DeleteWrapper>}
+        </AudioFileWrapper>
+        <LoadButtonsWrapper>
           <Button 
           variant='contained' 
           size='large' 
@@ -244,7 +261,7 @@ const Create = () => {
           >
             Сброс
           </Button>
-        </Box>
+        </LoadButtonsWrapper>
       </MainLayout>
     </ThemeProvider>
   )
