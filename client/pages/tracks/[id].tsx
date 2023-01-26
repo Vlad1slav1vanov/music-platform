@@ -22,18 +22,50 @@ import styled from "styled-components";
 import CommentBlock from "../../components/comment-list/CommentBlock";
 import { userStore } from "../../store/UserStore";
 import dayjs from "dayjs";
+import { url } from "../../url/url";
 
 const StyledAccordion = styled(Accordion)`
 border: 1px solid grey;
+margin-bottom: 30px;
 &:hover {
   border: 1px solid #5824f3;
   outline: 1px solid #5824f3;
 }
 `
 
+const ButtonBack = styled(Button)`
+  width: 150px;
+  margin-bottom: 30px; 
+  width: 100;
+`
+
+const TrackDataWrapper = styled(Box)`
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-bottom: 30px;
+`
+
+const TrackMainInfo = styled(Box)`
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  gap: 40px;
+`
+
+const TrackPicture = styled.img`
+  display: block;
+  width: 300px;
+  height: 300px;
+`
+
 const TrackPage = ({serverTrack}: any) => {
   const [track, setTrack] = React.useState<ITrack>(serverTrack)
   const router = useRouter();
+
+  const routeBack = () => {
+    router.push('/tracks')
+  }
 
   React.useEffect(() => {
     userStore.authMe()
@@ -45,39 +77,20 @@ const TrackPage = ({serverTrack}: any) => {
       title={`Музыкальная платформа ${track.name} - ${track.artist}`}
       keywords={`Песня, ${track.name}, Исполнитель, ${track.artist}`}
       >
-        <Grid 
-        container 
-        direction='column' 
-        >
-          <Button
+        <Grid container direction='column'>
+          <ButtonBack
           variant="outlined"
-          onClick={() => router.push('/tracks')}
+          onClick={routeBack}
           startIcon={<ArrowBackIcon/>}
-          sx={{
-            marginBottom: '30px', 
-            width: 100
-          }}>
+          >
             назад
-          </Button>
-          <Grid 
-          container
-          sx={{
-            gap: '60px', 
-            marginBottom: '30px'
-          }}>
-            <img
-            src={`http://localhost:9000/${track.picture}`}
-            width={300} 
-            height={300} 
+          </ButtonBack>
+          <TrackDataWrapper>
+            <TrackPicture
+            src={url + track.picture}
             alt=""
             />
-            <Box 
-            sx={{
-              display: 'flex', 
-              flexDirection: 'column', 
-              justifyContent: 'center', 
-              gap: '40px'
-            }}>
+            <TrackMainInfo>
               <Typography variant="h3">
                 {track.name}
               </Typography>
@@ -90,11 +103,10 @@ const TrackPage = ({serverTrack}: any) => {
               <Typography variant="h6">
                 Дата загрузки: {dayjs(track.createdAt).format("DD.MM.YY")}
               </Typography>
-            </Box>
-          </Grid>
-          {track.text
-          &&
-          <StyledAccordion sx={{marginBottom: '30px'}} >
+            </TrackMainInfo>
+          </TrackDataWrapper>
+          {track.text &&
+          <StyledAccordion>
             <AccordionSummary
             expandIcon={<ExpandMoreIcon color="primary" />}
             >

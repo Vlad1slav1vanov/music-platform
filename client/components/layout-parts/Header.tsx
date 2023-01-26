@@ -1,12 +1,13 @@
 import React from "react";
 import AppBar from '@mui/material/AppBar';
-import { Avatar, Button, FilledInput, Grid, TextField, Toolbar, Typography } from "@mui/material";
+import { Avatar, Button, Grid, Toolbar, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import {trackStore} from "../../store/TrackStore"
 import {userStore} from "../../store/UserStore";
 import SearchIcon from '@mui/icons-material/Search';
 import { observer } from "mobx-react";
 import styled from "styled-components";
+import { url } from "../../url/url";
 
 interface HeaderProps {
   searchIsAvailable?: boolean;
@@ -32,6 +33,12 @@ const SearchInput = styled.input`
   &:focus {
     outline: 2px #F13457 solid;
   }
+`
+
+const StyledSearchIcon = styled(SearchIcon)`
+  position: absolute;
+  left: 20px; 
+  top: 5px;
 `
 
 const Header: React.FC<HeaderProps> = ({searchIsAvailable}) => {
@@ -66,10 +73,9 @@ const Header: React.FC<HeaderProps> = ({searchIsAvailable}) => {
       </Typography>
       {searchIsAvailable &&
       <SearchWrapper>
-        <SearchIcon 
+        <StyledSearchIcon 
         color="secondary" 
         fontSize="medium" 
-        sx={{position: 'absolute', left: "20px", top: "5px"}} 
         />
         <SearchInput
         type="text"
@@ -90,7 +96,7 @@ const Header: React.FC<HeaderProps> = ({searchIsAvailable}) => {
       >
         <Avatar
         sx={{width: 40, height: 40}}
-        src={`http://localhost:9000/${userStore.userState.avatarUrl}`} 
+        src={url + userStore.userState.avatarUrl}
         />
         <Typography
         fontSize={20}

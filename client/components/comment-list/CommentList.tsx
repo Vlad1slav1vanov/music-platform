@@ -1,4 +1,13 @@
-import { Avatar, Button, Card, Grid, IconButton, TextField, Typography, Box } from "@mui/material";
+import { 
+  Avatar, 
+  Button, 
+  Card, 
+  Grid, 
+  IconButton, 
+  TextField, 
+  Typography, 
+  Box 
+} from "@mui/material";
 import dayjs from "dayjs";
 import { observer } from "mobx-react-lite";
 import React from "react";
@@ -53,6 +62,12 @@ const EditCommentWrapper = styled(Grid)`
   gap: 15px;
 `
 
+const ListWrapper = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`
+
 // Component
 
 const CommentList: React.FC<CommentListProps> = ({
@@ -75,7 +90,7 @@ const CommentList: React.FC<CommentListProps> = ({
   }
 
   return (
-    <Box>
+    <ListWrapper>
       {comments.map((comment) => 
       <CommentCard key={comment._id}>
         <CommentHeader>
@@ -116,11 +131,11 @@ const CommentList: React.FC<CommentListProps> = ({
             {comment.text}
           </Typography>}
         <Typography color="grey">
-          Опубликовано {dayjs(comment.createdAt).format("DD.MM.YY в HH:mm")}
+          Опубликован {dayjs(comment.createdAt).format("DD.MM.YY в HH:mm")}
         </Typography>
       </CommentCard>
       )}    
-    </Box>
+    </ListWrapper>
   )
 }
 

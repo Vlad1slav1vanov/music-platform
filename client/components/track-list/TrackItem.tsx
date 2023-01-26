@@ -1,4 +1,4 @@
-import { Card, Grid, IconButton, Box } from "@mui/material";
+import { Card, Grid, IconButton, Box, Typography } from "@mui/material";
 import styled from "styled-components";
 import React from "react";
 import { ITrack } from "../../types/track";
@@ -6,6 +6,7 @@ import { Pause, PlayCircle } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import {playerStore} from "../../store/PlayerStore";
 import { observer } from "mobx-react";
+import { url } from "../../url/url";
 
 interface TrackItemProps {
   track: ITrack;
@@ -26,15 +27,17 @@ const StyledCard = styled(Card)`
 
 const TrackPicture = styled.img`
   display: block;
+  width: 90px;
+  height: 90px;
+`
+
+const TrackName = styled(Typography)`
+  font-size: 18px;
 `
 
 const ArtistName = styled(Box)`
-  font-size: 12px;
+  font-size: 15px;
   color: #929292;
-`
-
-const TrackTime = styled(Box)`
-  font-size: 14px;
 `
 
 const TrackItem: React.FC<TrackItemProps> = ({track}) => {
@@ -57,35 +60,31 @@ const TrackItem: React.FC<TrackItemProps> = ({track}) => {
     onClick={() => router.push('/tracks/' + track._id)}
     >
       {(track === playerStore.currentState.active && !playerStore.currentState.pause)
-      ?
-      <IconButton
-      onClick={pause}
-      >
-        <Pause fontSize="large" color="secondary" />
-      </IconButton>
-      :
-      <IconButton
-      onClick={play}
-      >
-        <PlayCircle fontSize="large" color="secondary" />
-      </IconButton>
-      }
-      <Box 
-      width={80} 
-      height={80}
-      >
-        <TrackPicture 
-        width={80} 
-        height={80} 
-        src={'http://localhost:9000/' + track.picture} 
-        alt={track.name} 
-        />
-      </Box>
+      ? <IconButton
+        onClick={pause}
+        >
+          <Pause 
+          fontSize="large" 
+          color="secondary" 
+          />
+        </IconButton>
+      : <IconButton
+        onClick={play}
+        >
+          <PlayCircle 
+          fontSize="large" 
+          color="secondary" 
+          />
+        </IconButton>}
+      <TrackPicture  
+      src={url + track.picture} 
+      alt={track.name} 
+      />
       <Grid 
       container 
       direction='column'
       >
-        <div>{track.name}</div>
+        <TrackName>{track.name}</TrackName>
         <ArtistName>{track.artist}</ArtistName>
       </Grid>
     </StyledCard>
