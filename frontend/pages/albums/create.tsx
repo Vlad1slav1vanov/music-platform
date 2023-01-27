@@ -8,13 +8,14 @@ import theme from "../../theme/theme";
 import { useRouter } from "next/router";
 import CreateAlbumForm from "../../components/create-album/CreateAlbumForm";
 import AddTrackForm from "../../components/create-album/AddTrackForm";
+import AddIcon from '@mui/icons-material/Add';
 
 const ButtonBack = styled(Button)`
-  width: 150px;
+  width: 120px;
 `
 
 const ButtonAddTrack = styled(Button)`
-  max-width: 200px;
+  width: 250px;
 `
 
 const Index: React.FC = () => {
@@ -52,7 +53,8 @@ const Index: React.FC = () => {
           picture={pictureUrl}
           />
           <ButtonAddTrack
-          variant="contained" 
+          variant="contained"
+          endIcon={<AddIcon />}
           onClick={() => setModalIsOpen(true)} 
           >
             Добавить трек
