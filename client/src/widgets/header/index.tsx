@@ -1,14 +1,17 @@
-import { AppBar, Toolbar } from '@mui/material'
+import { AppBar, Toolbar, Typography } from '@mui/material'
+import HeaderUnidentifiedUser from 'features/header-unidentified-user'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
-import HeaderLogo from 'shared/UI/header-logo'
 import './styles/styles.scss'
 
 const Header: React.FC = () => {
   return (
     <AppBar className='header'>
       <Toolbar>
-        <HeaderLogo />
+        <Typography variant="h5">
+          Music Platform
+        </Typography>
+        <HeaderUnidentifiedUser />
       </Toolbar>
     </AppBar>
   )
