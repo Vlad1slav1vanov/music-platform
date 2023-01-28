@@ -2,17 +2,22 @@ import React from 'react'
 import { ThemeProvider } from '@emotion/react'
 import { observer } from 'mobx-react-lite'
 import AppRoutes from 'app/routes'
-import './index.scss'
+import './styles/index.scss'
 import theme from './theme'
+import { BrowserRouter } from 'react-router-dom'
 import Header from 'widgets/header'
+import MainNavigation from 'widgets/main-navigation'
 
 const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
-      <div className='app'>
+      <BrowserRouter>
         <Header />
-        <AppRoutes />
-      </div>
+        <MainNavigation />
+        <main className='main-wrapper'>
+          <AppRoutes />
+        </main>
+      </BrowserRouter>
     </ThemeProvider>
   )
 }

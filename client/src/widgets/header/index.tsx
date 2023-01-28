@@ -7,7 +7,7 @@ import './styles/styles.scss'
 const Header: React.FC = () => {
   return (
     <AppBar className='header'>
-      <Toolbar>
+      <Toolbar className='toolbar'>
         <Typography variant="h5">
           Music Platform
         </Typography>

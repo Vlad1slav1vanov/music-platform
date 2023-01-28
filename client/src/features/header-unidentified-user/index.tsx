@@ -1,6 +1,7 @@
 import { Button } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
+import './styles/index.scss'
 
 const HeaderUnidentifiedUser: React.FC = () => {
   return (
