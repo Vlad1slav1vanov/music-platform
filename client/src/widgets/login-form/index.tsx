@@ -19,12 +19,14 @@ const LoginForm: React.FC = () => {
         <TextField
         fullWidth
         label='Email'
+        type='email'
         value={loginStore.email}
         onChange={loginStore.changeEmail}
         />
         <TextField
         fullWidth
         label='Пароль'
+        type='password'
         value={loginStore.password}
         onChange={loginStore.changePassword}
         />

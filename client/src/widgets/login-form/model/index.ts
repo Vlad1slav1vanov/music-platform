@@ -1,7 +1,8 @@
-import axios from 'axios'
+import axios from 'shared/axios/instance'
 import { makeAutoObservable } from 'mobx'
 import type React from 'react'
 import { type IUserWithToken } from 'shared/models/user'
+import userStore from 'shared/user-store'
 
 class LoginStore {
   constructor () {
@@ -19,13 +20,6 @@ class LoginStore {
     this.password = evt.target.value
   }
 
-  createFormData = (): FormData => {
-    const formData = new FormData()
-    formData.append('email', this.email)
-    formData.append('password', this.password)
-    return formData
-  }
-
   refreshForm = (): void => {
     this.email = ''
     this.password = ''
@@ -33,7 +27,12 @@ class LoginStore {
 
   async login (): Promise<IUserWithToken> {
     try {
-      const response = await axios.post('/users/login')
+      const loginData = {
+        email: this.email,
+        password: this.password
+      }
+      const response = await axios.post('/users/login', loginData)
+      userStore.changeUserData(response.data)
       return response.data
     } catch (err) {
       return await Promise.reject(err)

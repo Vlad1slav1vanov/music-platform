@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx'
 import type React from 'react'
 import axios from 'shared/axios/instance'
 import { type IUserWithToken } from 'shared/models/user'
+import userStore from 'shared/user-store'
 
 class RegisterStore {
   constructor () {
@@ -64,6 +65,7 @@ class RegisterStore {
   register = async (): Promise<IUserWithToken> => {
     try {
       const response = await axios.post<IUserWithToken>('/users/register', this.createFormData())
+      userStore.changeUserData(response.data)
       return response.data
     } catch (err) {
       return await Promise.reject(err)
