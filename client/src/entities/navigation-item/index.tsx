@@ -1,6 +1,8 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
+import { NavLink } from 'react-router-dom'
+import './styles/index.scss'
 
 interface NavigationItemProps {
   item: {
@@ -8,22 +10,24 @@ interface NavigationItemProps {
     text: string
     icon: React.ReactNode
   }
-  onClick: () => void
 }
 
-const NavigationItem: React.FC<NavigationItemProps> = ({ item, onClick }) => {
+const NavigationItem: React.FC<NavigationItemProps> = ({ item }) => {
   return (
-    <ListItem
-    onClick={onClick}
-    >
-      <ListItemButton>
-        <ListItemIcon>
-          {item.icon}
-        </ListItemIcon>
-        <ListItemText>
-          {item.text}
-        </ListItemText>
-      </ListItemButton>
+    <ListItem>
+      <NavLink
+      to={item.href}
+      className='nav-link'
+      >
+        <ListItemButton>
+          <ListItemIcon>
+            {item.icon}
+          </ListItemIcon>
+          <ListItemText>
+            {item.text}
+          </ListItemText>
+        </ListItemButton>
+      </NavLink>
     </ListItem>
   )
 }

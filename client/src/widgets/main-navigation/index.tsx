@@ -5,9 +5,8 @@ import LibraryMusicIcon from '@mui/icons-material/LibraryMusic'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import MusicNoteIcon from '@mui/icons-material/MusicNote'
 import QueueMusicIcon from '@mui/icons-material/QueueMusic'
-import { List, Toolbar } from '@mui/material'
+import { List } from '@mui/material'
 import NavigationItem from 'entities/navigation-item'
-import { useNavigate } from 'react-router-dom'
 import './styles/index.scss'
 
 const MainNavigation: React.FC = () => {
@@ -19,20 +18,16 @@ const MainNavigation: React.FC = () => {
     { text: 'Плейлисты', href: '/playlists', icon: <QueueMusicIcon color="primary"/> }
   ]
 
-  const navigate = useNavigate()
-
   return (
-    <div className='main-navigation' >
+    <div className='main-navigation'>
       <List>
         {navItems.map((item, index) =>
           <NavigationItem
           item={item}
           key={index}
-          onClick={() => { navigate(item.href) }}
           />
         )}
       </List>
-      <Toolbar />
     </div>
   )
 }
