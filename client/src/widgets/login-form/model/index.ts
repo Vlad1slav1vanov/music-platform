@@ -26,6 +26,11 @@ class LoginStore {
     return formData
   }
 
+  refreshForm = (): void => {
+    this.email = ''
+    this.password = ''
+  }
+
   async login (): Promise<IUserWithToken> {
     try {
       const response = await axios.post('/users/login')
