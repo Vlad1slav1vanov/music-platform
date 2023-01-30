@@ -4,6 +4,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { url } from 'shared/consts/url'
 import { type ITrack } from 'shared/models/track'
+import './styles/index.scss'
 
 interface TrackItemProps {
   track: ITrack

@@ -1,0 +1,9 @@
+.tracks {
+  width: 100%;
+}
+
+.tracks__list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
