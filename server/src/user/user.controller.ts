@@ -31,7 +31,6 @@ export class UserController {
 
   @Post('login')
   login(@Body() { email, password }) {
-    console.log(email, password)
     return this.userService.login(email, password);
   }
 

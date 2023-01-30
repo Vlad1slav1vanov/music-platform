@@ -1,15 +1,29 @@
-import { Button } from '@mui/material'
+import { Avatar, Button, Typography } from '@mui/material'
 import React from 'react'
+import { url } from 'shared/consts/url'
+import userStore from 'shared/user-store'
+import './styles/index.scss'
 
-const ButtonLogout: React.FC = () => {
+const HeaderLogout: React.FC = () => {
+  const avatarUrl = userStore.user?.avatarUrl != null
+    ? `${url}${userStore.user.avatarUrl}`
+    : ''
+
   return (
-    <Button
-    color="error"
-    variant="contained"
-    >
-      Выйти
-    </Button>
+    <div className='header-logout'>
+      <Avatar src={avatarUrl}/>
+      <Typography className='user-name'>
+        {userStore.user?.fullName}
+      </Typography>
+      <Button
+      color="error"
+      variant="contained"
+      onClick={userStore.logout}
+      >
+        Выйти
+      </Button>
+    </div>
   )
 }
 
-export default ButtonLogout
+export default HeaderLogout

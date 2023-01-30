@@ -2,6 +2,7 @@ import { Button, TextField } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import userStore from 'shared/user-store'
 import loginStore from './model'
 import './styles/index.scss'
 
@@ -10,11 +11,21 @@ const LoginForm: React.FC = () => {
   const onSubmit = (): void => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     loginStore.login()
-    navigate('/')
     loginStore.refreshForm()
   }
+
+  const pressEnter = (evt: React.KeyboardEvent): void => {
+    if (evt.key === 'Enter') {
+      onSubmit()
+    }
+  }
+
+  if (userStore.user != null) {
+    navigate('/')
+  }
+
   return (
-    <div className='login'>
+    <div className='login' onKeyDown={pressEnter}>
       <form className='login__form'>
         <TextField
         fullWidth
