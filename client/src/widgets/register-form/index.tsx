@@ -15,7 +15,6 @@ const RegisterForm: React.FC = () => {
   }
 
   const onSubmit = (): void => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     registerStore.register()
     registerStore.refreshForm()
   }

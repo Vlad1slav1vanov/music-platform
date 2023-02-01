@@ -1,4 +1,5 @@
 import { Card } from '@mui/material'
+import TrackButtonPlay from 'features/track-button-play'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -18,6 +19,7 @@ const TrackItem: React.FC<TrackItemProps> = ({ track }) => {
     onClick={() => { navigate(`${track._id}`) }}
     className='track-item'
     >
+      <TrackButtonPlay />
       <img
       src={url + track.picture}
       alt={`${track.artist}, ${track.name}`}
