@@ -4,6 +4,7 @@ import theme from "./theme/theme";
 import { BrowserRouter } from "react-router-dom";
 import Routing from "./routing";
 import MainLayout from "./main-layout";
+import './styles/index.scss';
 
 const App = () => {
   return (
