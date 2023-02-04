@@ -1,9 +1,9 @@
-import React from "react";
-import { ThemeProvider } from "@mui/material";
-import theme from "./theme/theme";
-import { BrowserRouter } from "react-router-dom";
-import Routing from "./routing";
-import MainLayout from "./main-layout";
+import React from 'react';
+import {ThemeProvider} from '@mui/material';
+import theme from './theme/theme';
+import {BrowserRouter} from 'react-router-dom';
+import Routing from './routing';
+import MainLayout from './main-layout';
 import './styles/index.scss';
 
 const App = () => {
@@ -16,6 +16,6 @@ const App = () => {
       </ThemeProvider>
     </BrowserRouter>
   );
-}
+};
 
 export default App;
