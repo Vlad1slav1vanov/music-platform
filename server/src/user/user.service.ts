@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { createUserDto } from './dto/create-user.dto';
 import { FileService, FileType } from 'src/file/file.service';
+import { validate, validateOrReject } from 'class-validator';
 
 export const SECRET_JWT_KEY = 'secret1234';
 
@@ -26,6 +27,9 @@ export class UserService {
 
   async create(dto: createUserDto, picture): Promise<UserRegisterResponse> {
     try {
+      const parsed = JSON.parse(JSON.stringify(dto));
+      const errors = await validate(parsed);
+      console.log(errors);
       const picturePath =
         picture && this.fileService.createFile(FileType.IMAGE, picture);
       const salt = await bcrypt.genSalt(10);
